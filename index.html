@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hieta Burgers - Big Flava</title>
+    
+    <!-- Uber-style Font: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+
     <style>
         /* CSS Styling */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial Black', Gadget, sans-serif;
+            font-family: 'Outfit', sans-serif; 
         }
 
         body {
@@ -30,7 +36,6 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            /* Keeps the background items contained inside the hero */
             overflow: hidden; 
         }
 
@@ -63,17 +68,17 @@
 
         .hero-content h1 {
             font-size: 4.5rem;
+            font-weight: 900; 
             margin-bottom: 15px;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             color: #fff;
             text-shadow: 3px 3px 0px #d32f2f, 6px 6px 0px rgba(0,0,0,0.4);
         }
 
         .hero-content p {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 700;
             color: #ffecb3;
             text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
         }
@@ -106,42 +111,59 @@
         /* Content Section Below Hero */
         .content-section {
             position: relative;
-            z-index: 20; /* Sits above the hero section */
+            z-index: 20; 
             background-color: #1a0600; 
-            padding: 150px 20px 100px 20px;
+            padding: 150px 20px 250px 20px; 
             min-height: 100vh;
             text-align: center;
         }
 
-        /* THE FALLING BURGER */
-        .falling-burger {
-            position: absolute;
-            /* Visually places it 400px above the content section (inside the hero section) */
-            top: -400px; 
-            /* Center it horizontally */
-            left: 50%;
-            margin-left: -175px; 
-            width: 350px;
-            z-index: 25; /* Maximum z-index so it overlaps both the hero and content sections */
-            pointer-events: none;
-            will-change: transform;
-            filter: drop-shadow(0px 40px 20px rgba(0,0,0,0.9)); /* Big shadow for a "heavy" look */
+        .text-wrapper {
+            position: relative;
+            z-index: 30; /* Keeps text above the falling products */
         }
 
         .content-section h2 {
             font-size: 3rem;
+            font-weight: 900;
             margin-bottom: 20px;
             color: #f57c00;
             text-transform: uppercase;
         }
 
         .content-section p {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 1.2rem;
+            font-weight: 300;
             color: #ccc;
             max-width: 600px;
             margin: 0 auto;
             line-height: 1.6;
+        }
+
+        /* --- THE COMBO ZONE (Landing Area) --- */
+        
+        /* The Falling Burger */
+        .falling-burger {
+            position: absolute;
+            top: -400px; 
+            left: 50%;
+            margin-left: -260px; /* Shifted left */
+            width: 350px;
+            z-index: 25; /* Higher z-index to sit IN FRONT of the Coke */
+            pointer-events: none;
+            will-change: transform;
+            filter: drop-shadow(0px 40px 20px rgba(0,0,0,0.9)); 
+        }
+
+        /* The Waiting Coke Can */
+        .coke-can {
+            position: absolute;
+            top: 380px; /* Sits nicely below the text */
+            left: 50%;
+            margin-left: -80px; /* Positioned so it tucks right behind the burger */
+            width: 350px; /* Scaled up to match the burger */
+            z-index: 24; /* Lower z-index so it sits BEHIND the burger */
+            filter: drop-shadow(0px 30px 15px rgba(0,0,0,0.8));
         }
     </style>
 </head>
@@ -150,7 +172,6 @@
     <!-- The Hero Section -->
     <header class="hero" id="hero-section">
         
-        <!-- The Floating Burger Fleet -->
         <div class="fleet-container">
             <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 1" class="floating-item floating-item-1">
             <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 2" class="floating-item floating-item-2">
@@ -161,22 +182,26 @@
 
         <div class="hero-content" id="hero-text">
             <h1>Hieta Mzanzi!</h1>
-            <p>Scroll down for big flava and a spicy kick.</p>
+            <p>Scroll down for big flava and an icy finish.</p>
         </div>
     </header>
 
     <!-- Content Section -->
     <section class="content-section">
         
-        <!-- The Burger that drops from the hero -->
-        <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Falling Burger" class="falling-burger" id="falling-burger">
+        <!-- Text Wrapper -->
+        <div class="text-wrapper">
+            <h2>The Motswako Combo</h2>
+            <p>Watch the massive burger drop from the sky and land perfectly next to the ice-cold Coke. The ultimate pairing, ready for you.</p>
+        </div>
 
-        <h2>Taste the Motswako</h2>
-        <p>Watch the massive burger drop from the sky directly into this section! Because it exists in the HTML of the content section but has a negative top margin, it flawlessly bridges the gap between the two areas.</p>
+        <!-- The Burger & Coke -->
+        <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Falling Burger" class="falling-burger" id="falling-burger">
+        <img src="https://i.postimg.cc/bJfc4Y1d/Gemini-Generated-Image-2ouib2ouib2ouib2-removebg-preview.png" alt="Coke Can" class="coke-can" id="coke-can">
+
     </section>
 
     <script>
-        // JavaScript Animation Logic
         document.addEventListener('DOMContentLoaded', () => {
             const heroText = document.getElementById('hero-text');
             const burgers = document.querySelectorAll('.floating-item');
@@ -185,7 +210,7 @@
             window.addEventListener('scroll', () => {
                 let scrollPosition = window.scrollY;
 
-                // 1. Text Parallax (Fades and moves down)
+                // 1. Text Parallax
                 let yPosText = scrollPosition * 0.4;
                 let opacity = Math.max(0, 1 - (scrollPosition / 400));
                 heroText.style.transform = `translateY(${yPosText}px)`;
@@ -195,31 +220,31 @@
                 burgers.forEach((burger, index) => {
                     let moveX, moveY, rotateAngle;
 
-                    if (index === 0) { // Bottom Left
+                    if (index === 0) { 
                         moveX = scrollPosition * 1.5;
                         moveY = -(scrollPosition * 0.5);
                         rotateAngle = scrollPosition * 0.05;
                         burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
                     } 
-                    else if (index === 1) { // Mid Right
+                    else if (index === 1) { 
                         moveX = -(scrollPosition * 1.2);
                         moveY = scrollPosition * 0.3;
                         rotateAngle = -(scrollPosition * 0.08);
                         burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
                     } 
-                    else if (index === 2) { // Background Left
+                    else if (index === 2) { 
                         moveX = scrollPosition * 0.8;
                         moveY = -(scrollPosition * 0.8);
                         rotateAngle = scrollPosition * 0.03;
                         burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
                     }
-                    else if (index === 3) { // Top Left
+                    else if (index === 3) { 
                         moveX = -(scrollPosition * 0.2); 
                         moveY = -(scrollPosition * 1.6); 
                         rotateAngle = -15 - (scrollPosition * 0.06); 
                         burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
                     }
-                    else if (index === 4) { // Top Right
+                    else if (index === 4) { 
                         moveX = scrollPosition * 0.3; 
                         moveY = -(scrollPosition * 2.0); 
                         rotateAngle = 20 + (scrollPosition * 0.04); 
@@ -227,10 +252,20 @@
                     }
                 });
 
-                // 3. THE FALLING BURGER PARALLAX
-                // Pushes it down (positive Y) much faster than the scroll speed
-                let fallDropY = scrollPosition * 1.1; 
-                let fallRotate = scrollPosition * 0.15; // Give it a nice spin as it drops
+                // 3. THE FALLING BURGER LANDING LOGIC
+                // The target Y distance the burger needs to travel to sit next to the Coke
+                const MAX_DROP = 720; 
+                
+                // Calculate how far the burger should drop based on scroll, but CAP it at MAX_DROP
+                let dropAmount = scrollPosition * 1.1;
+                
+                // Calculate progress from 0 to 1 (1 means it has fully landed)
+                let progress = Math.min(dropAmount / MAX_DROP, 1);
+                
+                // Apply the capped progress to the translation and the 360-degree rotation
+                let fallDropY = progress * MAX_DROP; 
+                let fallRotate = progress * 360; 
+                
                 fallingBurger.style.transform = `translateY(${fallDropY}px) rotate(${fallRotate}deg)`;
             });
         });
