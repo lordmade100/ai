@@ -25,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* Hero Section */
+        /* --- HERO SECTION --- */
         .hero {
             position: relative;
             height: 100vh;
@@ -105,7 +105,7 @@
         .floating-item-4 { top: 10%; left: 25%; width: 220px; z-index: 6; }
         .floating-item-5 { top: 5%; right: 25%; width: 160px; z-index: 4; filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.8)) brightness(0.85); }
 
-        /* Content Section */
+        /* --- CONTENT SECTION --- */
         .content-section {
             position: relative;
             z-index: 20; 
@@ -254,7 +254,7 @@
         }
 
         /* =========================================
-           FULL SCREEN MENU UI
+           FULL SCREEN MENU UI WITH IMAGES & ANIMATION
            ========================================= */
         .menu-overlay {
             position: fixed;
@@ -262,18 +262,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(8, 2, 0, 0.95); /* Deep dark background */
+            background: rgba(8, 2, 0, 0.95); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            z-index: 1000; /* Stays above everything */
+            z-index: 1000; 
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            overflow-y: auto; /* Allow scrolling inside the menu */
+            overflow-y: auto; 
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
-            padding: 60px 20px;
+            padding: 80px 20px;
         }
 
         .menu-overlay.active {
@@ -295,21 +295,23 @@
             z-index: 1010;
         }
 
-        .close-menu:hover {
-            color: #f57c00;
-        }
+        .close-menu:hover { color: #f57c00; }
 
         .menu-container {
             width: 100%;
             max-width: 800px;
-            transform: translateY(50px);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0;
         }
 
-        .menu-overlay.active .menu-container {
-            transform: translateY(0);
+        /* --- Scroll Animation Classes --- */
+        .scroll-anim {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-anim.show {
             opacity: 1;
+            transform: translateY(0);
         }
 
         .menu-header {
@@ -349,24 +351,56 @@
             padding-bottom: 10px;
         }
 
+        /* --- Menu Items with Images --- */
         .menu-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 20px 0;
             border-bottom: 1px dashed rgba(255,255,255,0.1);
             transition: background 0.3s ease;
         }
 
-        .menu-item:last-child {
-            border-bottom: none;
-        }
+        .menu-item:last-child { border-bottom: none; }
 
         .menu-item:hover {
             background: rgba(255, 255, 255, 0.05);
             padding-left: 10px;
             padding-right: 10px;
-            border-radius: 8px;
+            border-radius: 12px;
+        }
+
+        /* Image Styling */
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0; /* Prevents image from squishing */
+            margin-right: 20px;
+            background: rgba(255,255,255,0.05); /* Placeholder background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover .item-image img {
+            transform: scale(1.1); /* Subtle zoom on hover */
+        }
+
+        /* Content wrapper to organize text and button */
+        .item-content {
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .item-details h4 {
@@ -379,7 +413,7 @@
             font-size: 0.9rem;
             color: #aaa;
             font-weight: 300;
-            max-width: 80%;
+            max-width: 90%;
         }
 
         .item-price {
@@ -398,11 +432,13 @@
             cursor: pointer;
             margin-left: 15px;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .add-to-cart:hover {
             background: #f57c00;
             color: #fff;
+            box-shadow: 0 5px 15px rgba(245, 124, 0, 0.4);
         }
 
         .price-action-wrapper {
@@ -410,40 +446,30 @@
             align-items: center;
         }
 
+        /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 768px) {
             .hero-content { padding: 30px 20px; }
             .hero-content h1 { font-size: 2.8rem; }
             .hero-content p { font-size: 1.1rem; }
-            
             .content-section h2 { font-size: 2.2rem; }
-            .content-section p { font-size: 1rem; }
-
             .floating-item-1 { width: 220px; left: -100px; bottom: 5%; }
             .floating-item-2 { width: 160px; right: -80px; top: 30%; }
-            .floating-item-3 { width: 100px; left: -50px; bottom: 20%; }
-            .floating-item-4 { width: 120px; left: 5%; top: 5%; }
-            .floating-item-5 { width: 90px; right: 5%; top: 2%; }
-
+            .landing-pad { padding: 30px 10px; }
             .falling-burger { width: 220px; }
             .sliding-coke { width: 200px; margin-left: -80px; }
-            .landing-pad { padding: 30px 10px; }
 
-            .cta-button { font-size: 1.2rem; padding: 15px 35px; }
-
-            /* Mobile Menu Adjustments */
-            .menu-overlay { padding: 40px 15px; }
+            /* Mobile Menu */
+            .menu-overlay { padding: 60px 15px; }
             .menu-header h2 { font-size: 2.5rem; }
             .menu-category { padding: 20px 15px; }
-            .menu-category h3 { font-size: 1.5rem; }
+            .item-image { width: 60px; height: 60px; margin-right: 15px; }
             .item-details h4 { font-size: 1.1rem; }
-            .item-price { font-size: 1.1rem; }
-            .add-to-cart { padding: 5px 10px; font-size: 0.8rem; }
-            .item-details p { max-width: 100%; margin-bottom: 10px; }
+            .item-details p { font-size: 0.85rem; }
             
-            /* Stack item details and price vertically on small screens */
-            .menu-item { flex-direction: column; align-items: flex-start; }
+            /* Stack Price/Button on Mobile */
+            .item-content { flex-direction: column; align-items: flex-start; }
             .price-action-wrapper { width: 100%; justify-content: space-between; margin-top: 10px; }
-            .add-to-cart { margin-left: 0; }
+            .add-to-cart { margin-left: 0; padding: 6px 12px; }
         }
     </style>
 </head>
@@ -452,13 +478,12 @@
     <!-- HERO SECTION -->
     <header class="hero" id="hero-section">
         <div class="fleet-container">
-            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 1" class="floating-item floating-item-1">
-            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 2" class="floating-item floating-item-2">
-            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 3" class="floating-item floating-item-3">
-            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 4" class="floating-item floating-item-4">
-            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 5" class="floating-item floating-item-5">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger" class="floating-item floating-item-1">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger" class="floating-item floating-item-2">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger" class="floating-item floating-item-3">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger" class="floating-item floating-item-4">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger" class="floating-item floating-item-5">
         </div>
-
         <div class="hero-content" id="hero-text">
             <h1>Hieta Mzanzi!</h1>
             <p>Scroll down for big flava and an icy finish.</p>
@@ -471,14 +496,12 @@
             <h2>The Motswako Combo</h2>
             <p>Watch the massive burger drop from the sky and collide perfectly with an ice-cold Coke. The ultimate pairing, ready for you.</p>
         </div>
-
         <div class="landing-pad" id="landing-pad">
             <div class="product-wrapper" id="burger-wrapper">
                 <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Falling Burger" class="falling-burger">
                 <div class="steam steam-1"></div>
                 <div class="steam steam-2"></div>
             </div>
-
             <div class="product-wrapper" id="coke-wrapper">
                 <img src="https://i.postimg.cc/bJfc4Y1d/Gemini-Generated-Image-2ouib2ouib2ouib2-removebg-preview.png" alt="Coke Can" class="sliding-coke">
                 <div class="fizz fizz-1"></div>
@@ -486,99 +509,128 @@
                 <div class="fizz fizz-3"></div>
             </div>
         </div>
-
         <div class="cta-container">
             <button class="cta-button" id="cta-button">Open Menu</button>
         </div>
     </section>
 
-    <!-- MENU OVERLAY -->
+    <!-- FULL SCREEN MENU OVERLAY -->
     <div class="menu-overlay" id="menu-overlay">
         <button class="close-menu" id="close-menu">&times;</button>
         
         <div class="menu-container">
-            <div class="menu-header">
+            <div class="menu-header scroll-anim">
                 <h2>Our Menu</h2>
                 <p>Freshly Grilled. Ice Cold. Ready to Eat.</p>
             </div>
 
             <!-- Category 1 -->
-            <div class="menu-category">
+            <div class="menu-category scroll-anim">
                 <h3>Signature Combos</h3>
                 
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>The Motswako Combo</h4>
-                        <p>Our famous triple-stacked beef patty with secret sauce, paired with an ice-cold Coke.</p>
+                <div class="menu-item scroll-anim">
+                    <div class="item-image">
+                        <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Combo">
                     </div>
-                    <div class="price-action-wrapper">
-                        <span class="item-price">R120</span>
-                        <button class="add-to-cart">+ Add</button>
+                    <div class="item-content">
+                        <div class="item-details">
+                            <h4>The Motswako Combo</h4>
+                            <p>Triple-stacked beef patty with secret sauce, paired with an ice-cold Coke.</p>
+                        </div>
+                        <div class="price-action-wrapper">
+                            <span class="item-price">R120</span>
+                            <button class="add-to-cart">+ Add</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Spicy Hieta Double</h4>
-                        <p>Two jalapeño-infused patties, pepper jack cheese, crispy fries, and a Sprite.</p>
+                <div class="menu-item scroll-anim">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1594212202875-5205566bd430?w=200&h=200&fit=crop" alt="Spicy Double">
                     </div>
-                    <div class="price-action-wrapper">
-                        <span class="item-price">R145</span>
-                        <button class="add-to-cart">+ Add</button>
+                    <div class="item-content">
+                        <div class="item-details">
+                            <h4>Spicy Hieta Double</h4>
+                            <p>Two jalapeño-infused patties, pepper jack cheese, crispy fries, and a drink.</p>
+                        </div>
+                        <div class="price-action-wrapper">
+                            <span class="item-price">R145</span>
+                            <button class="add-to-cart">+ Add</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Category 2 -->
-            <div class="menu-category">
+            <div class="menu-category scroll-anim">
                 <h3>Burgers Only</h3>
                 
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Classic Cheeseburger</h4>
-                        <p>Single smash patty, melted cheddar, pickles, and ketchup.</p>
+                <div class="menu-item scroll-anim">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=200&fit=crop" alt="Cheeseburger">
                     </div>
-                    <div class="price-action-wrapper">
-                        <span class="item-price">R65</span>
-                        <button class="add-to-cart">+ Add</button>
+                    <div class="item-content">
+                        <div class="item-details">
+                            <h4>Classic Cheeseburger</h4>
+                            <p>Single smash patty, melted cheddar, pickles, and ketchup.</p>
+                        </div>
+                        <div class="price-action-wrapper">
+                            <span class="item-price">R65</span>
+                            <button class="add-to-cart">+ Add</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>The Big Flava Chicken</h4>
-                        <p>Crispy buttermilk fried chicken breast with spicy mayo and slaw.</p>
+                <div class="menu-item scroll-anim">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=200&h=200&fit=crop" alt="Chicken Burger">
                     </div>
-                    <div class="price-action-wrapper">
-                        <span class="item-price">R85</span>
-                        <button class="add-to-cart">+ Add</button>
+                    <div class="item-content">
+                        <div class="item-details">
+                            <h4>The Big Flava Chicken</h4>
+                            <p>Crispy buttermilk fried chicken breast with spicy mayo and slaw.</p>
+                        </div>
+                        <div class="price-action-wrapper">
+                            <span class="item-price">R85</span>
+                            <button class="add-to-cart">+ Add</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Category 3 -->
-            <div class="menu-category">
+            <div class="menu-category scroll-anim">
                 <h3>Sides & Refreshments</h3>
                 
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Loaded Fries</h4>
-                        <p>Crispy fries smothered in cheese sauce and crispy bacon bits.</p>
+                <div class="menu-item scroll-anim">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?w=200&h=200&fit=crop" alt="Loaded Fries">
                     </div>
-                    <div class="price-action-wrapper">
-                        <span class="item-price">R45</span>
-                        <button class="add-to-cart">+ Add</button>
+                    <div class="item-content">
+                        <div class="item-details">
+                            <h4>Loaded Fries</h4>
+                            <p>Crispy fries smothered in cheese sauce and crispy bacon bits.</p>
+                        </div>
+                        <div class="price-action-wrapper">
+                            <span class="item-price">R45</span>
+                            <button class="add-to-cart">+ Add</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Ice Cold Coke (Can)</h4>
-                        <p>300ml perfectly chilled Coca-Cola.</p>
+                <div class="menu-item scroll-anim">
+                    <div class="item-image">
+                        <img src="https://i.postimg.cc/bJfc4Y1d/Gemini-Generated-Image-2ouib2ouib2ouib2-removebg-preview.png" alt="Coke Can">
                     </div>
-                    <div class="price-action-wrapper">
-                        <span class="item-price">R20</span>
-                        <button class="add-to-cart">+ Add</button>
+                    <div class="item-content">
+                        <div class="item-details">
+                            <h4>Ice Cold Coke (Can)</h4>
+                            <p>300ml perfectly chilled Coca-Cola.</p>
+                        </div>
+                        <div class="price-action-wrapper">
+                            <span class="item-price">R20</span>
+                            <button class="add-to-cart">+ Add</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -599,35 +651,28 @@
             // Menu Elements
             const menuOverlay = document.getElementById('menu-overlay');
             const closeMenu = document.getElementById('close-menu');
+            const animatedElements = document.querySelectorAll('.scroll-anim');
             
             let isLanded = false;
 
-            // --- 1. SCROLL LOGIC ---
+            // --- 1. MAIN PAGE SCROLL LOGIC ---
             window.addEventListener('scroll', () => {
                 let scrollPosition = window.scrollY;
                 let screenHeight = window.innerHeight;
 
-                // Hero Parallax
                 heroText.style.transform = `translateY(${scrollPosition * 0.4}px)`;
                 heroText.style.opacity = Math.max(0, 1 - (scrollPosition / (screenHeight * 0.6)));
 
                 burgers.forEach((burger, index) => {
                     let moveX, moveY, rotateAngle;
-                    if (index === 0) { 
-                        moveX = scrollPosition * 1.5; moveY = -(scrollPosition * 0.5); rotateAngle = scrollPosition * 0.05; 
-                    } else if (index === 1) { 
-                        moveX = -(scrollPosition * 1.2); moveY = scrollPosition * 0.3; rotateAngle = -(scrollPosition * 0.08); 
-                    } else if (index === 2) { 
-                        moveX = scrollPosition * 0.8; moveY = -(scrollPosition * 0.8); rotateAngle = scrollPosition * 0.03; 
-                    } else if (index === 3) { 
-                        moveX = -(scrollPosition * 0.2); moveY = -(scrollPosition * 1.6); rotateAngle = -15 - (scrollPosition * 0.06); 
-                    } else if (index === 4) { 
-                        moveX = scrollPosition * 0.3; moveY = -(scrollPosition * 2.0); rotateAngle = 20 + (scrollPosition * 0.04); 
-                    }
+                    if (index === 0) { moveX = scrollPosition * 1.5; moveY = -(scrollPosition * 0.5); rotateAngle = scrollPosition * 0.05; }
+                    else if (index === 1) { moveX = -(scrollPosition * 1.2); moveY = scrollPosition * 0.3; rotateAngle = -(scrollPosition * 0.08); }
+                    else if (index === 2) { moveX = scrollPosition * 0.8; moveY = -(scrollPosition * 0.8); rotateAngle = scrollPosition * 0.03; }
+                    else if (index === 3) { moveX = -(scrollPosition * 0.2); moveY = -(scrollPosition * 1.6); rotateAngle = -15 - (scrollPosition * 0.06); }
+                    else if (index === 4) { moveX = scrollPosition * 0.3; moveY = -(scrollPosition * 2.0); rotateAngle = 20 + (scrollPosition * 0.04); }
                     burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
                 });
 
-                // Landing Logic
                 const SCROLL_DURATION = screenHeight * 0.9;
                 let progress = Math.min(scrollPosition / SCROLL_DURATION, 1);
 
@@ -663,30 +708,54 @@
             });
 
             landingPad.addEventListener('mouseleave', () => {
-                if (isLanded) {
-                    landingPad.style.transform = `rotateX(0deg) rotateY(0deg)`;
-                }
+                if (isLanded) landingPad.style.transform = `rotateX(0deg) rotateY(0deg)`;
             });
 
-            // --- 3. MENU OVERLAY LOGIC ---
+            // --- 3. MENU SCROLL ANIMATIONS (Intersection Observer) ---
+            const observerOptions = {
+                root: menuOverlay, // Observe scrolling strictly within the menu
+                threshold: 0.1,    // Trigger when 10% of the item is visible
+                rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the bottom
+            };
+
+            const menuObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        // Optional: Stop observing once it has animated in
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            // --- 4. MENU OVERLAY TOGGLE ---
             ctaButton.addEventListener('click', () => {
                 menuOverlay.classList.add('active');
-                // Lock background scrolling so the user only scrolls the menu
-                document.body.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden'; // Lock background scroll
+                
+                // Attach the observer to all items so they animate as user scrolls the menu
+                animatedElements.forEach((el, index) => {
+                    // Stagger the first few items instantly so the screen isn't blank
+                    if(index < 3) {
+                        setTimeout(() => el.classList.add('show'), index * 150);
+                    } else {
+                        // Observe the rest to animate on scroll
+                        menuObserver.observe(el);
+                    }
+                });
             });
 
             closeMenu.addEventListener('click', () => {
                 menuOverlay.classList.remove('active');
-                // Restore background scrolling
-                document.body.style.overflow = 'auto';
-            });
-
-            // Optional: Close menu if user clicks outside the menu container
-            menuOverlay.addEventListener('click', (e) => {
-                if (e.target === menuOverlay) {
-                    menuOverlay.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
+                document.body.style.overflow = 'auto'; // Unlock background scroll
+                
+                // Reset animations so they play again next time menu opens
+                setTimeout(() => {
+                    animatedElements.forEach(el => {
+                        el.classList.remove('show');
+                        menuObserver.unobserve(el);
+                    });
+                }, 400); // Wait for menu to fade out before resetting
             });
         });
     </script>
