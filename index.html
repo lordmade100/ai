@@ -1,1 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hieta Burgers - Big Flava</title>
+    <style>
+        /* CSS Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Black', Gadget, sans-serif;
+        }
 
+        body {
+            background-color: #1a0600; 
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://i.postimg.cc/PqKjBnf7/Gemini-Generated-Image-2m9hbi2m9hbi2m9h.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+
+        /* Dark overlay */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: 1;
+        }
+
+        /* Hero Content Card */
+        .hero-content {
+            text-align: center;
+            will-change: transform, opacity;
+            z-index: 10; 
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 50px 60px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            position: relative; /* Helps visually anchor the top burgers */
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 3px 3px 0px #d32f2f, 6px 6px 0px rgba(0,0,0,0.4);
+        }
+
+        .hero-content p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffecb3;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+        }
+
+        /* The Burger Container */
+        .fleet-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; 
+            z-index: 5; 
+        }
+
+        /* Individual Burgers */
+        .floating-item {
+            position: absolute;
+            will-change: transform;
+            filter: drop-shadow(0px 25px 15px rgba(0,0,0,0.8)); 
+        }
+
+        /* Bottom Left */
+        .floating-item-1 { 
+            bottom: -5%; 
+            left: -300px; 
+            width: 450px; 
+            z-index: 3;
+        } 
+
+        /* Middle Right */
+        .floating-item-2 { 
+            top: 40%; 
+            right: -250px; 
+            width: 280px; 
+            z-index: 2;
+            filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.7)) brightness(0.9); 
+        }
+
+        /* Bottom Center-Left */
+        .floating-item-3 { 
+            bottom: 30%; 
+            left: -150px; 
+            width: 180px; 
+            z-index: 1;
+            filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.6)) brightness(0.7);
+        }
+
+        /* NEW: Top Left of the card */
+        .floating-item-4 {
+            top: 10%;
+            left: 25%;
+            width: 220px;
+            z-index: 6; /* In front of other background elements */
+        }
+
+        /* NEW: Top Right of the card */
+        .floating-item-5 {
+            top: 5%;
+            right: 25%;
+            width: 160px;
+            z-index: 4;
+            filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.7)) brightness(0.85); 
+        }
+
+        /* Content Section Below Hero */
+        .content-section {
+            position: relative;
+            z-index: 20;
+            background-color: #1a0600; 
+            padding: 100px 20px;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .content-section h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #f57c00;
+            text-transform: uppercase;
+        }
+
+        .content-section p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1.2rem;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- The Hero Section -->
+    <header class="hero" id="hero-section">
+        
+        <!-- The Floating Burger Fleet -->
+        <div class="fleet-container">
+            <!-- Original Bottom/Side Burgers -->
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 1" class="floating-item floating-item-1">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 2" class="floating-item floating-item-2">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 3" class="floating-item floating-item-3">
+            
+            <!-- New Top Burgers -->
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 4 Top Left" class="floating-item floating-item-4">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 5 Top Right" class="floating-item floating-item-5">
+        </div>
+
+        <div class="hero-content" id="hero-text">
+            <h1>Hieta Mzanzi!</h1>
+            <p>Scroll down for big flava and a spicy kick.</p>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <h2>Taste the Motswako</h2>
+        <p>The top burgers shoot straight up into the air as the bottom ones sweep across the screen!</p>
+    </section>
+
+    <script>
+        // JavaScript Animation Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroText = document.getElementById('hero-text');
+            const burgers = document.querySelectorAll('.floating-item');
+            
+            window.addEventListener('scroll', () => {
+                let scrollPosition = window.scrollY;
+
+                // 1. Text Parallax (Fades and moves down)
+                let yPosText = scrollPosition * 0.4;
+                let opacity = Math.max(0, 1 - (scrollPosition / 400));
+                heroText.style.transform = `translateY(${yPosText}px)`;
+                heroText.style.opacity = opacity;
+
+                // 2. Burger Parallax (Floating & Rotating)
+                burgers.forEach((burger, index) => {
+                    let moveX, moveY, rotateAngle;
+
+                    if (index === 0) { // Bottom Left: Moves fast right
+                        moveX = scrollPosition * 1.5;
+                        moveY = -(scrollPosition * 0.5);
+                        rotateAngle = scrollPosition * 0.05;
+                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
+                    } 
+                    else if (index === 1) { // Mid Right: Moves left
+                        moveX = -(scrollPosition * 1.2);
+                        moveY = scrollPosition * 0.3;
+                        rotateAngle = -(scrollPosition * 0.08);
+                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
+                    } 
+                    else if (index === 2) { // Background Left: Drifts slightly
+                        moveX = scrollPosition * 0.8;
+                        moveY = -(scrollPosition * 0.8);
+                        rotateAngle = scrollPosition * 0.03;
+                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
+                    }
+                    else if (index === 3) { // NEW Top Left: Shoots up fast
+                        moveX = -(scrollPosition * 0.2); // slight drift left to feel natural
+                        moveY = -(scrollPosition * 1.6); // heavily negative Y = moves UP quickly
+                        rotateAngle = -15 - (scrollPosition * 0.06); // starts tilted, rotates left
+                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
+                    }
+                    else if (index === 4) { // NEW Top Right: Shoots up even faster
+                        moveX = scrollPosition * 0.3; // slight drift right
+                        moveY = -(scrollPosition * 2.0); // heavily negative Y = moves UP very quickly
+                        rotateAngle = 20 + (scrollPosition * 0.04); // starts tilted, rotates right
+                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
