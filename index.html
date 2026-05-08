@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hieta Burgers - Big Flava</title>
+    <title>Hieta Burgers - The Motswako Combo</title>
     
     <!-- Uber-style Font: Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,9 +37,9 @@
             background-position: center;
             background-repeat: no-repeat;
             overflow: hidden; 
+            z-index: 2;
         }
 
-        /* Dark overlay */
         .hero::before {
             content: '';
             position: absolute;
@@ -51,7 +51,6 @@
             z-index: 1;
         }
 
-        /* Hero Content Card */
         .hero-content {
             text-align: center;
             will-change: transform, opacity;
@@ -64,16 +63,18 @@
             border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             position: relative; 
+            width: 90%;
+            max-width: 600px;
         }
 
         .hero-content h1 {
             font-size: 4.5rem;
             font-weight: 900; 
             margin-bottom: 15px;
-            letter-spacing: 1px;
             text-transform: uppercase;
             color: #fff;
             text-shadow: 3px 3px 0px #d32f2f, 6px 6px 0px rgba(0,0,0,0.4);
+            line-height: 1.1;
         }
 
         .hero-content p {
@@ -83,7 +84,6 @@
             text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
         }
 
-        /* The Burger Container */
         .fleet-container {
             position: absolute;
             top: 0;
@@ -94,84 +94,199 @@
             z-index: 5; 
         }
 
-        /* Individual Burgers */
         .floating-item {
             position: absolute;
             will-change: transform;
             filter: drop-shadow(0px 25px 15px rgba(0,0,0,0.8)); 
         }
 
-        /* Hero Burgers */
+        /* Default Desktop Positions */
         .floating-item-1 { bottom: -5%; left: -300px; width: 450px; z-index: 3; } 
         .floating-item-2 { top: 40%; right: -250px; width: 280px; z-index: 2; filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.7)) brightness(0.9); }
         .floating-item-3 { bottom: 30%; left: -150px; width: 180px; z-index: 1; filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.6)) brightness(0.7); }
         .floating-item-4 { top: 10%; left: 25%; width: 220px; z-index: 6; }
         .floating-item-5 { top: 5%; right: 25%; width: 160px; z-index: 4; filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.7)) brightness(0.85); }
 
-        /* Content Section Below Hero */
+        /* Content Section */
         .content-section {
             position: relative;
             z-index: 20; 
-            background-color: #1a0600; 
-            padding: 150px 20px 250px 20px; 
-            min-height: 100vh;
+            background: linear-gradient(180deg, #1a0600 0%, #0a0200 100%);
+            padding: 100px 20px 200px 20px; 
+            min-height: 120vh; 
             text-align: center;
+            overflow: hidden;
         }
 
         .text-wrapper {
             position: relative;
-            z-index: 30; /* Keeps text above the falling products */
+            z-index: 30; 
+            margin-bottom: 50px;
         }
 
         .content-section h2 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 900;
             margin-bottom: 20px;
             color: #f57c00;
             text-transform: uppercase;
+            text-shadow: 2px 2px 10px rgba(245, 124, 0, 0.3);
+            line-height: 1.1;
         }
 
         .content-section p {
             font-size: 1.2rem;
             font-weight: 300;
-            color: #ccc;
+            color: #e0e0e0;
             max-width: 600px;
             margin: 0 auto;
             line-height: 1.6;
         }
 
-        /* --- THE COMBO ZONE (Landing Area) --- */
-        
-        /* The Falling Burger */
-        .falling-burger {
-            position: absolute;
-            top: -400px; 
-            left: 50%;
-            margin-left: -260px; /* Shifted left */
-            width: 350px;
-            z-index: 25; /* Higher z-index to sit IN FRONT of the Coke */
-            pointer-events: none;
-            will-change: transform;
-            filter: drop-shadow(0px 40px 20px rgba(0,0,0,0.9)); 
+        /* --- THE COMBO ZONE --- */
+        .landing-pad {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; 
+            margin: 0 auto;
+            width: fit-content;
+            perspective: 1000px; 
+            position: relative;
+            z-index: 25;
+            padding: 50px 20px;
         }
 
-        /* The Waiting Coke Can */
-        .coke-can {
-            position: absolute;
-            top: 380px; /* Sits nicely below the text */
-            left: 50%;
-            margin-left: -80px; /* Positioned so it tucks right behind the burger */
-            width: 350px; /* Scaled up to match the burger */
-            z-index: 24; /* Lower z-index so it sits BEHIND the burger */
+        .product-wrapper {
+            position: relative;
+            will-change: transform;
+            transition: transform 0.1s ease-out; 
+        }
+
+        .falling-burger {
+            width: 400px;
+            filter: drop-shadow(0px 40px 20px rgba(0,0,0,0.9)); 
+            position: relative;
+            z-index: 3; 
+        }
+
+        .sliding-coke {
+            width: 380px; 
+            margin-left: -150px; 
             filter: drop-shadow(0px 30px 15px rgba(0,0,0,0.8));
+            position: relative;
+            z-index: 2; 
+        }
+
+        /* --- PARTICLES --- */
+        .steam, .fizz {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .landing-pad.landed .steam, .landing-pad.landed .fizz { opacity: 1; }
+
+        .steam {
+            width: 60px; height: 60px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            filter: blur(10px);
+            bottom: 60%; left: 40%;
+            animation: rise 3s infinite ease-in-out;
+        }
+        .steam-2 { left: 60%; animation-delay: 1.5s; width: 40px; }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-150px) scale(2.5); opacity: 0; }
+        }
+
+        .fizz {
+            width: 6px; height: 6px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            top: 25%; left: 55%;
+            animation: pop 1.2s infinite ease-in;
+        }
+        .fizz-2 { left: 45%; top: 30%; animation-delay: 0.6s; width: 4px; height: 4px; }
+        .fizz-3 { left: 60%; top: 28%; animation-delay: 0.3s; width: 5px; height: 5px; }
+
+        @keyframes pop {
+            0% { transform: translateY(0); opacity: 0; }
+            30% { opacity: 1; }
+            100% { transform: translateY(-80px); opacity: 0; }
+        }
+
+        /* --- CTA BUTTON --- */
+        .cta-container {
+            margin-top: 20px;
+            height: 80px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #d32f2f, #f57c00);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 900;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0px 10px 30px rgba(245, 124, 0, 0.4);
+            transition: all 0.3s ease;
+            transform: translateY(30px) scale(0.9);
+            opacity: 0;
+            pointer-events: none; 
+        }
+
+        .cta-button.visible {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .cta-button:hover {
+            box-shadow: 0px 15px 40px rgba(245, 124, 0, 0.6);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        /* =========================================
+           MOBILE RESPONSIVENESS
+           ========================================= */
+        @media (max-width: 768px) {
+            .hero-content { padding: 30px 20px; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .hero-content p { font-size: 1.1rem; }
+            
+            .content-section h2 { font-size: 2.2rem; }
+            .content-section p { font-size: 1rem; }
+
+            /* Scale down background burgers for smaller screens */
+            .floating-item-1 { width: 220px; left: -100px; bottom: 5%; }
+            .floating-item-2 { width: 160px; right: -80px; top: 30%; }
+            .floating-item-3 { width: 100px; left: -50px; bottom: 20%; }
+            .floating-item-4 { width: 120px; left: 5%; top: 5%; }
+            .floating-item-5 { width: 90px; right: 5%; top: 2%; }
+
+            /* Scale down the main combo products */
+            .falling-burger { width: 220px; }
+            .sliding-coke { width: 200px; margin-left: -80px; }
+            .landing-pad { padding: 30px 10px; }
+
+            /* Adjust CTA button for mobile tap targets */
+            .cta-button { font-size: 1.2rem; padding: 15px 35px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- The Hero Section -->
     <header class="hero" id="hero-section">
-        
         <div class="fleet-container">
             <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 1" class="floating-item floating-item-1">
             <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 2" class="floating-item floating-item-2">
@@ -186,87 +301,116 @@
         </div>
     </header>
 
-    <!-- Content Section -->
     <section class="content-section">
-        
-        <!-- Text Wrapper -->
         <div class="text-wrapper">
             <h2>The Motswako Combo</h2>
-            <p>Watch the massive burger drop from the sky and land perfectly next to the ice-cold Coke. The ultimate pairing, ready for you.</p>
+            <p>Watch the massive burger drop from the sky and collide perfectly with an ice-cold Coke. The ultimate pairing, ready for you.</p>
         </div>
 
-        <!-- The Burger & Coke -->
-        <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Falling Burger" class="falling-burger" id="falling-burger">
-        <img src="https://i.postimg.cc/bJfc4Y1d/Gemini-Generated-Image-2ouib2ouib2ouib2-removebg-preview.png" alt="Coke Can" class="coke-can" id="coke-can">
+        <!-- The Flexbox Landing Pad -->
+        <div class="landing-pad" id="landing-pad">
+            
+            <div class="product-wrapper" id="burger-wrapper">
+                <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Falling Burger" class="falling-burger">
+                <div class="steam steam-1"></div>
+                <div class="steam steam-2"></div>
+            </div>
 
+            <div class="product-wrapper" id="coke-wrapper">
+                <img src="https://i.postimg.cc/bJfc4Y1d/Gemini-Generated-Image-2ouib2ouib2ouib2-removebg-preview.png" alt="Coke Can" class="sliding-coke">
+                <div class="fizz fizz-1"></div>
+                <div class="fizz fizz-2"></div>
+                <div class="fizz fizz-3"></div>
+            </div>
+
+        </div>
+
+        <div class="cta-container">
+            <button class="cta-button" id="cta-button">Order Now</button>
+        </div>
     </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const heroText = document.getElementById('hero-text');
             const burgers = document.querySelectorAll('.floating-item');
-            const fallingBurger = document.getElementById('falling-burger');
+            const burgerWrapper = document.getElementById('burger-wrapper');
+            const cokeWrapper = document.getElementById('coke-wrapper');
+            const landingPad = document.getElementById('landing-pad');
+            const ctaButton = document.getElementById('cta-button');
             
+            let isLanded = false;
+
             window.addEventListener('scroll', () => {
                 let scrollPosition = window.scrollY;
+                let screenHeight = window.innerHeight;
 
-                // 1. Text Parallax
-                let yPosText = scrollPosition * 0.4;
-                let opacity = Math.max(0, 1 - (scrollPosition / 400));
-                heroText.style.transform = `translateY(${yPosText}px)`;
-                heroText.style.opacity = opacity;
+                // 1. Text & Hero Parallax
+                heroText.style.transform = `translateY(${scrollPosition * 0.4}px)`;
+                heroText.style.opacity = Math.max(0, 1 - (scrollPosition / (screenHeight * 0.6)));
 
-                // 2. Hero Burger Parallax
                 burgers.forEach((burger, index) => {
                     let moveX, moveY, rotateAngle;
-
                     if (index === 0) { 
-                        moveX = scrollPosition * 1.5;
-                        moveY = -(scrollPosition * 0.5);
-                        rotateAngle = scrollPosition * 0.05;
-                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
-                    } 
-                    else if (index === 1) { 
-                        moveX = -(scrollPosition * 1.2);
-                        moveY = scrollPosition * 0.3;
-                        rotateAngle = -(scrollPosition * 0.08);
-                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
-                    } 
-                    else if (index === 2) { 
-                        moveX = scrollPosition * 0.8;
-                        moveY = -(scrollPosition * 0.8);
-                        rotateAngle = scrollPosition * 0.03;
-                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
+                        moveX = scrollPosition * 1.5; moveY = -(scrollPosition * 0.5); rotateAngle = scrollPosition * 0.05; 
+                    } else if (index === 1) { 
+                        moveX = -(scrollPosition * 1.2); moveY = scrollPosition * 0.3; rotateAngle = -(scrollPosition * 0.08); 
+                    } else if (index === 2) { 
+                        moveX = scrollPosition * 0.8; moveY = -(scrollPosition * 0.8); rotateAngle = scrollPosition * 0.03; 
+                    } else if (index === 3) { 
+                        moveX = -(scrollPosition * 0.2); moveY = -(scrollPosition * 1.6); rotateAngle = -15 - (scrollPosition * 0.06); 
+                    } else if (index === 4) { 
+                        moveX = scrollPosition * 0.3; moveY = -(scrollPosition * 2.0); rotateAngle = 20 + (scrollPosition * 0.04); 
                     }
-                    else if (index === 3) { 
-                        moveX = -(scrollPosition * 0.2); 
-                        moveY = -(scrollPosition * 1.6); 
-                        rotateAngle = -15 - (scrollPosition * 0.06); 
-                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
-                    }
-                    else if (index === 4) { 
-                        moveX = scrollPosition * 0.3; 
-                        moveY = -(scrollPosition * 2.0); 
-                        rotateAngle = 20 + (scrollPosition * 0.04); 
-                        burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
-                    }
+                    burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
                 });
 
-                // 3. THE FALLING BURGER LANDING LOGIC
-                // The target Y distance the burger needs to travel to sit next to the Coke
-                const MAX_DROP = 720; 
-                
-                // Calculate how far the burger should drop based on scroll, but CAP it at MAX_DROP
-                let dropAmount = scrollPosition * 1.1;
-                
-                // Calculate progress from 0 to 1 (1 means it has fully landed)
-                let progress = Math.min(dropAmount / MAX_DROP, 1);
-                
-                // Apply the capped progress to the translation and the 360-degree rotation
-                let fallDropY = progress * MAX_DROP; 
-                let fallRotate = progress * 360; 
-                
-                fallingBurger.style.transform = `translateY(${fallDropY}px) rotate(${fallRotate}deg)`;
+                // 2. THE MEET IN THE MIDDLE LOGIC (Viewport Responsive)
+                // The animation completes exactly when the user scrolls 90% of their screen height
+                const SCROLL_DURATION = screenHeight * 0.9;
+                let progress = Math.min(scrollPosition / SCROLL_DURATION, 1);
+
+                let burgerDropY = (1 - progress) * -900;
+                let burgerSpin = progress * 360;
+                burgerWrapper.style.transform = `translateY(${burgerDropY}px) rotate(${burgerSpin}deg)`;
+
+                // Adjust sliding distance based on screen width so it's always just off-screen
+                let startSlideX = window.innerWidth > 768 ? 800 : window.innerWidth;
+                let cokeSlideX = (1 - progress) * startSlideX;
+                cokeWrapper.style.transform = `translateX(${cokeSlideX}px)`;
+
+                // 3. TRIGGER EFFECTS WHEN LANDED
+                if (progress === 1 && !isLanded) {
+                    isLanded = true;
+                    landingPad.classList.add('landed');
+                    ctaButton.classList.add('visible');
+                } else if (progress < 1 && isLanded) {
+                    isLanded = false;
+                    landingPad.classList.remove('landed');
+                    ctaButton.classList.remove('visible');
+                    landingPad.style.transform = `rotateX(0deg) rotateY(0deg)`;
+                }
+            });
+
+            // 4. 3D HOVER TILT (Only active on desktop/mouse devices)
+            landingPad.addEventListener('mousemove', (e) => {
+                // Ignore tilt on smaller touch screens to prevent scrolling jitter
+                if (!isLanded || window.innerWidth <= 768) return; 
+
+                const rect = landingPad.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+
+                const rotateX = (y / rect.height) * -15; 
+                const rotateY = (x / rect.width) * 15;
+
+                landingPad.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            landingPad.addEventListener('mouseleave', () => {
+                if (isLanded) {
+                    landingPad.style.transform = `rotateX(0deg) rotateY(0deg)`;
+                }
             });
         });
     </script>
