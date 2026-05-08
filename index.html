@@ -20,7 +20,6 @@
         }
 
         body {
-            /* Replaced solid color with a rich dark espresso */
             background-color: #0a0200; 
             color: #fff;
             overflow-x: hidden;
@@ -33,13 +32,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Premium Food Vibe: Deep charcoal with a warm, fiery ember glow in the center */
             background: radial-gradient(circle at 50% 50%, #521505 0%, #1a0600 60%, #080200 100%);
             overflow: hidden; 
             z-index: 2;
         }
 
-        /* Subtle Texture Overlay */
         .hero::before {
             content: '';
             position: absolute;
@@ -47,7 +44,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Creates a subtle carbon/grill dot texture */
             background-image: radial-gradient(rgba(255, 100, 50, 0.04) 2px, transparent 2px);
             background-size: 30px 30px;
             background-color: rgba(0, 0, 0, 0.2); 
@@ -61,7 +57,7 @@
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 100, 50, 0.15); /* Warmer border */
+            border: 1px solid rgba(255, 100, 50, 0.15); 
             padding: 50px 60px;
             border-radius: 15px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
@@ -103,7 +99,6 @@
             filter: drop-shadow(0px 25px 25px rgba(0,0,0,0.9)); 
         }
 
-        /* Default Desktop Positions */
         .floating-item-1 { bottom: -5%; left: -300px; width: 450px; z-index: 3; } 
         .floating-item-2 { top: 40%; right: -250px; width: 280px; z-index: 2; filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.8)) brightness(0.9); }
         .floating-item-3 { bottom: 30%; left: -150px; width: 180px; z-index: 1; filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.7)) brightness(0.7); }
@@ -114,7 +109,6 @@
         .content-section {
             position: relative;
             z-index: 20; 
-            /* Smooth transition from the hero into a rich, dark espresso color */
             background: linear-gradient(180deg, #080200 0%, #200803 40%, #0a0200 100%);
             padding: 100px 20px 200px 20px; 
             min-height: 120vh; 
@@ -181,7 +175,6 @@
             z-index: 2; 
         }
 
-        /* --- PARTICLES --- */
         .steam, .fizz {
             position: absolute;
             pointer-events: none;
@@ -261,8 +254,162 @@
         }
 
         /* =========================================
-           MOBILE RESPONSIVENESS
+           FULL SCREEN MENU UI
            ========================================= */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(8, 2, 0, 0.95); /* Deep dark background */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 1000; /* Stays above everything */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-y: auto; /* Allow scrolling inside the menu */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 60px 20px;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3rem;
+            color: #fff;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 300;
+            transition: color 0.3s ease;
+            z-index: 1010;
+        }
+
+        .close-menu:hover {
+            color: #f57c00;
+        }
+
+        .menu-container {
+            width: 100%;
+            max-width: 800px;
+            transform: translateY(50px);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+        }
+
+        .menu-overlay.active .menu-container {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .menu-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .menu-header h2 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .menu-header p {
+            color: #f57c00;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .menu-category {
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 100, 50, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .menu-category h3 {
+            font-size: 2rem;
+            color: #f57c00;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-bottom: 2px solid rgba(245, 124, 0, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            transition: background 0.3s ease;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 8px;
+        }
+
+        .item-details h4 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .item-details p {
+            font-size: 0.9rem;
+            color: #aaa;
+            font-weight: 300;
+            max-width: 80%;
+        }
+
+        .item-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffecb3;
+        }
+
+        .add-to-cart {
+            background: transparent;
+            border: 1px solid #f57c00;
+            color: #f57c00;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #f57c00;
+            color: #fff;
+        }
+
+        .price-action-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
         @media (max-width: 768px) {
             .hero-content { padding: 30px 20px; }
             .hero-content h1 { font-size: 2.8rem; }
@@ -282,18 +429,34 @@
             .landing-pad { padding: 30px 10px; }
 
             .cta-button { font-size: 1.2rem; padding: 15px 35px; }
+
+            /* Mobile Menu Adjustments */
+            .menu-overlay { padding: 40px 15px; }
+            .menu-header h2 { font-size: 2.5rem; }
+            .menu-category { padding: 20px 15px; }
+            .menu-category h3 { font-size: 1.5rem; }
+            .item-details h4 { font-size: 1.1rem; }
+            .item-price { font-size: 1.1rem; }
+            .add-to-cart { padding: 5px 10px; font-size: 0.8rem; }
+            .item-details p { max-width: 100%; margin-bottom: 10px; }
+            
+            /* Stack item details and price vertically on small screens */
+            .menu-item { flex-direction: column; align-items: flex-start; }
+            .price-action-wrapper { width: 100%; justify-content: space-between; margin-top: 10px; }
+            .add-to-cart { margin-left: 0; }
         }
     </style>
 </head>
 <body>
 
+    <!-- HERO SECTION -->
     <header class="hero" id="hero-section">
         <div class="fleet-container">
             <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 1" class="floating-item floating-item-1">
             <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 2" class="floating-item floating-item-2">
             <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 3" class="floating-item floating-item-3">
-            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 4 Top Left" class="floating-item floating-item-4">
-            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 5 Top Right" class="floating-item floating-item-5">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 4" class="floating-item floating-item-4">
+            <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger 5" class="floating-item floating-item-5">
         </div>
 
         <div class="hero-content" id="hero-text">
@@ -302,6 +465,7 @@
         </div>
     </header>
 
+    <!-- CONTENT SECTION -->
     <section class="content-section">
         <div class="text-wrapper">
             <h2>The Motswako Combo</h2>
@@ -309,7 +473,6 @@
         </div>
 
         <div class="landing-pad" id="landing-pad">
-            
             <div class="product-wrapper" id="burger-wrapper">
                 <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Falling Burger" class="falling-burger">
                 <div class="steam steam-1"></div>
@@ -322,16 +485,110 @@
                 <div class="fizz fizz-2"></div>
                 <div class="fizz fizz-3"></div>
             </div>
-
         </div>
 
         <div class="cta-container">
-            <button class="cta-button" id="cta-button">Order Now</button>
+            <button class="cta-button" id="cta-button">Open Menu</button>
         </div>
     </section>
 
+    <!-- MENU OVERLAY -->
+    <div class="menu-overlay" id="menu-overlay">
+        <button class="close-menu" id="close-menu">&times;</button>
+        
+        <div class="menu-container">
+            <div class="menu-header">
+                <h2>Our Menu</h2>
+                <p>Freshly Grilled. Ice Cold. Ready to Eat.</p>
+            </div>
+
+            <!-- Category 1 -->
+            <div class="menu-category">
+                <h3>Signature Combos</h3>
+                
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>The Motswako Combo</h4>
+                        <p>Our famous triple-stacked beef patty with secret sauce, paired with an ice-cold Coke.</p>
+                    </div>
+                    <div class="price-action-wrapper">
+                        <span class="item-price">R120</span>
+                        <button class="add-to-cart">+ Add</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Spicy Hieta Double</h4>
+                        <p>Two jalapeño-infused patties, pepper jack cheese, crispy fries, and a Sprite.</p>
+                    </div>
+                    <div class="price-action-wrapper">
+                        <span class="item-price">R145</span>
+                        <button class="add-to-cart">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 2 -->
+            <div class="menu-category">
+                <h3>Burgers Only</h3>
+                
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Classic Cheeseburger</h4>
+                        <p>Single smash patty, melted cheddar, pickles, and ketchup.</p>
+                    </div>
+                    <div class="price-action-wrapper">
+                        <span class="item-price">R65</span>
+                        <button class="add-to-cart">+ Add</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>The Big Flava Chicken</h4>
+                        <p>Crispy buttermilk fried chicken breast with spicy mayo and slaw.</p>
+                    </div>
+                    <div class="price-action-wrapper">
+                        <span class="item-price">R85</span>
+                        <button class="add-to-cart">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 3 -->
+            <div class="menu-category">
+                <h3>Sides & Refreshments</h3>
+                
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Loaded Fries</h4>
+                        <p>Crispy fries smothered in cheese sauce and crispy bacon bits.</p>
+                    </div>
+                    <div class="price-action-wrapper">
+                        <span class="item-price">R45</span>
+                        <button class="add-to-cart">+ Add</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Ice Cold Coke (Can)</h4>
+                        <p>300ml perfectly chilled Coca-Cola.</p>
+                    </div>
+                    <div class="price-action-wrapper">
+                        <span class="item-price">R20</span>
+                        <button class="add-to-cart">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Parallax Elements
             const heroText = document.getElementById('hero-text');
             const burgers = document.querySelectorAll('.floating-item');
             const burgerWrapper = document.getElementById('burger-wrapper');
@@ -339,13 +596,18 @@
             const landingPad = document.getElementById('landing-pad');
             const ctaButton = document.getElementById('cta-button');
             
+            // Menu Elements
+            const menuOverlay = document.getElementById('menu-overlay');
+            const closeMenu = document.getElementById('close-menu');
+            
             let isLanded = false;
 
+            // --- 1. SCROLL LOGIC ---
             window.addEventListener('scroll', () => {
                 let scrollPosition = window.scrollY;
                 let screenHeight = window.innerHeight;
 
-                // 1. Text & Hero Parallax
+                // Hero Parallax
                 heroText.style.transform = `translateY(${scrollPosition * 0.4}px)`;
                 heroText.style.opacity = Math.max(0, 1 - (scrollPosition / (screenHeight * 0.6)));
 
@@ -365,7 +627,7 @@
                     burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
                 });
 
-                // 2. THE MEET IN THE MIDDLE LOGIC
+                // Landing Logic
                 const SCROLL_DURATION = screenHeight * 0.9;
                 let progress = Math.min(scrollPosition / SCROLL_DURATION, 1);
 
@@ -377,7 +639,6 @@
                 let cokeSlideX = (1 - progress) * startSlideX;
                 cokeWrapper.style.transform = `translateX(${cokeSlideX}px)`;
 
-                // 3. TRIGGER EFFECTS WHEN LANDED
                 if (progress === 1 && !isLanded) {
                     isLanded = true;
                     landingPad.classList.add('landed');
@@ -390,23 +651,41 @@
                 }
             });
 
-            // 4. 3D HOVER TILT
+            // --- 2. 3D HOVER TILT ---
             landingPad.addEventListener('mousemove', (e) => {
                 if (!isLanded || window.innerWidth <= 768) return; 
-
                 const rect = landingPad.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
-
                 const rotateX = (y / rect.height) * -15; 
                 const rotateY = (x / rect.width) * 15;
-
                 landingPad.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
             });
 
             landingPad.addEventListener('mouseleave', () => {
                 if (isLanded) {
                     landingPad.style.transform = `rotateX(0deg) rotateY(0deg)`;
+                }
+            });
+
+            // --- 3. MENU OVERLAY LOGIC ---
+            ctaButton.addEventListener('click', () => {
+                menuOverlay.classList.add('active');
+                // Lock background scrolling so the user only scrolls the menu
+                document.body.style.overflow = 'hidden';
+            });
+
+            closeMenu.addEventListener('click', () => {
+                menuOverlay.classList.remove('active');
+                // Restore background scrolling
+                document.body.style.overflow = 'auto';
+            });
+
+            // Optional: Close menu if user clicks outside the menu container
+            menuOverlay.addEventListener('click', (e) => {
+                if (e.target === menuOverlay) {
+                    menuOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
                 }
             });
         });
