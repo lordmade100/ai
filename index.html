@@ -20,7 +20,8 @@
         }
 
         body {
-            background-color: #1a0600; 
+            /* Replaced solid color with a rich dark espresso */
+            background-color: #0a0200; 
             color: #fff;
             overflow-x: hidden;
         }
@@ -32,14 +33,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-image: url('https://i.postimg.cc/PqKjBnf7/Gemini-Generated-Image-2m9hbi2m9hbi2m9h.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            /* Premium Food Vibe: Deep charcoal with a warm, fiery ember glow in the center */
+            background: radial-gradient(circle at 50% 50%, #521505 0%, #1a0600 60%, #080200 100%);
             overflow: hidden; 
             z-index: 2;
         }
 
+        /* Subtle Texture Overlay */
         .hero::before {
             content: '';
             position: absolute;
@@ -47,7 +47,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4); 
+            /* Creates a subtle carbon/grill dot texture */
+            background-image: radial-gradient(rgba(255, 100, 50, 0.04) 2px, transparent 2px);
+            background-size: 30px 30px;
+            background-color: rgba(0, 0, 0, 0.2); 
             z-index: 1;
         }
 
@@ -55,13 +58,13 @@
             text-align: center;
             will-change: transform, opacity;
             z-index: 10; 
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 100, 50, 0.15); /* Warmer border */
             padding: 50px 60px;
             border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
             position: relative; 
             width: 90%;
             max-width: 600px;
@@ -73,7 +76,7 @@
             margin-bottom: 15px;
             text-transform: uppercase;
             color: #fff;
-            text-shadow: 3px 3px 0px #d32f2f, 6px 6px 0px rgba(0,0,0,0.4);
+            text-shadow: 3px 3px 0px #d32f2f, 6px 6px 0px rgba(0,0,0,0.6);
             line-height: 1.1;
         }
 
@@ -81,7 +84,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: #ffecb3;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
         }
 
         .fleet-container {
@@ -97,21 +100,22 @@
         .floating-item {
             position: absolute;
             will-change: transform;
-            filter: drop-shadow(0px 25px 15px rgba(0,0,0,0.8)); 
+            filter: drop-shadow(0px 25px 25px rgba(0,0,0,0.9)); 
         }
 
         /* Default Desktop Positions */
         .floating-item-1 { bottom: -5%; left: -300px; width: 450px; z-index: 3; } 
-        .floating-item-2 { top: 40%; right: -250px; width: 280px; z-index: 2; filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.7)) brightness(0.9); }
-        .floating-item-3 { bottom: 30%; left: -150px; width: 180px; z-index: 1; filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.6)) brightness(0.7); }
+        .floating-item-2 { top: 40%; right: -250px; width: 280px; z-index: 2; filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.8)) brightness(0.9); }
+        .floating-item-3 { bottom: 30%; left: -150px; width: 180px; z-index: 1; filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.7)) brightness(0.7); }
         .floating-item-4 { top: 10%; left: 25%; width: 220px; z-index: 6; }
-        .floating-item-5 { top: 5%; right: 25%; width: 160px; z-index: 4; filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.7)) brightness(0.85); }
+        .floating-item-5 { top: 5%; right: 25%; width: 160px; z-index: 4; filter: drop-shadow(0px 15px 8px rgba(0,0,0,0.8)) brightness(0.85); }
 
         /* Content Section */
         .content-section {
             position: relative;
             z-index: 20; 
-            background: linear-gradient(180deg, #1a0600 0%, #0a0200 100%);
+            /* Smooth transition from the hero into a rich, dark espresso color */
+            background: linear-gradient(180deg, #080200 0%, #200803 40%, #0a0200 100%);
             padding: 100px 20px 200px 20px; 
             min-height: 120vh; 
             text-align: center;
@@ -130,7 +134,7 @@
             margin-bottom: 20px;
             color: #f57c00;
             text-transform: uppercase;
-            text-shadow: 2px 2px 10px rgba(245, 124, 0, 0.3);
+            text-shadow: 2px 2px 15px rgba(245, 124, 0, 0.4);
             line-height: 1.1;
         }
 
@@ -164,7 +168,7 @@
 
         .falling-burger {
             width: 400px;
-            filter: drop-shadow(0px 40px 20px rgba(0,0,0,0.9)); 
+            filter: drop-shadow(0px 40px 30px rgba(0,0,0,0.95)); 
             position: relative;
             z-index: 3; 
         }
@@ -172,7 +176,7 @@
         .sliding-coke {
             width: 380px; 
             margin-left: -150px; 
-            filter: drop-shadow(0px 30px 15px rgba(0,0,0,0.8));
+            filter: drop-shadow(0px 30px 20px rgba(0,0,0,0.9));
             position: relative;
             z-index: 2; 
         }
@@ -267,19 +271,16 @@
             .content-section h2 { font-size: 2.2rem; }
             .content-section p { font-size: 1rem; }
 
-            /* Scale down background burgers for smaller screens */
             .floating-item-1 { width: 220px; left: -100px; bottom: 5%; }
             .floating-item-2 { width: 160px; right: -80px; top: 30%; }
             .floating-item-3 { width: 100px; left: -50px; bottom: 20%; }
             .floating-item-4 { width: 120px; left: 5%; top: 5%; }
             .floating-item-5 { width: 90px; right: 5%; top: 2%; }
 
-            /* Scale down the main combo products */
             .falling-burger { width: 220px; }
             .sliding-coke { width: 200px; margin-left: -80px; }
             .landing-pad { padding: 30px 10px; }
 
-            /* Adjust CTA button for mobile tap targets */
             .cta-button { font-size: 1.2rem; padding: 15px 35px; }
         }
     </style>
@@ -307,7 +308,6 @@
             <p>Watch the massive burger drop from the sky and collide perfectly with an ice-cold Coke. The ultimate pairing, ready for you.</p>
         </div>
 
-        <!-- The Flexbox Landing Pad -->
         <div class="landing-pad" id="landing-pad">
             
             <div class="product-wrapper" id="burger-wrapper">
@@ -365,8 +365,7 @@
                     burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
                 });
 
-                // 2. THE MEET IN THE MIDDLE LOGIC (Viewport Responsive)
-                // The animation completes exactly when the user scrolls 90% of their screen height
+                // 2. THE MEET IN THE MIDDLE LOGIC
                 const SCROLL_DURATION = screenHeight * 0.9;
                 let progress = Math.min(scrollPosition / SCROLL_DURATION, 1);
 
@@ -374,7 +373,6 @@
                 let burgerSpin = progress * 360;
                 burgerWrapper.style.transform = `translateY(${burgerDropY}px) rotate(${burgerSpin}deg)`;
 
-                // Adjust sliding distance based on screen width so it's always just off-screen
                 let startSlideX = window.innerWidth > 768 ? 800 : window.innerWidth;
                 let cokeSlideX = (1 - progress) * startSlideX;
                 cokeWrapper.style.transform = `translateX(${cokeSlideX}px)`;
@@ -392,9 +390,8 @@
                 }
             });
 
-            // 4. 3D HOVER TILT (Only active on desktop/mouse devices)
+            // 4. 3D HOVER TILT
             landingPad.addEventListener('mousemove', (e) => {
-                // Ignore tilt on smaller touch screens to prevent scrolling jitter
                 if (!isLanded || window.innerWidth <= 768) return; 
 
                 const rect = landingPad.getBoundingClientRect();
