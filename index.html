@@ -120,6 +120,8 @@
             position: relative;
             z-index: 30; 
             margin-bottom: 50px;
+            /* Ensure fixed height so the layout doesn't jump while typing */
+            min-height: 150px; 
         }
 
         .content-section h2 {
@@ -139,6 +141,17 @@
             max-width: 600px;
             margin: 0 auto;
             line-height: 1.6;
+        }
+
+        /* --- TYPEWRITER CURSOR EFFECT --- */
+        .typing::after {
+            content: '|';
+            color: #f57c00;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         /* --- THE COMBO ZONE --- */
@@ -376,9 +389,9 @@
             height: 80px;
             border-radius: 12px;
             overflow: hidden;
-            flex-shrink: 0; /* Prevents image from squishing */
+            flex-shrink: 0; 
             margin-right: 20px;
-            background: rgba(255,255,255,0.05); /* Placeholder background */
+            background: rgba(255,255,255,0.05); 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -392,10 +405,9 @@
         }
 
         .menu-item:hover .item-image img {
-            transform: scale(1.1); /* Subtle zoom on hover */
+            transform: scale(1.1); 
         }
 
-        /* Content wrapper to organize text and button */
         .item-content {
             display: flex;
             flex-grow: 1;
@@ -492,7 +504,7 @@
 
     <!-- CONTENT SECTION -->
     <section class="content-section">
-        <div class="text-wrapper">
+        <div class="text-wrapper" id="typewriter-container">
             <h2>The Motswako Combo</h2>
             <p>Watch the massive burger drop from the sky and collide perfectly with an ice-cold Coke. The ultimate pairing, ready for you.</p>
         </div>
@@ -711,19 +723,17 @@
                 if (isLanded) landingPad.style.transform = `rotateX(0deg) rotateY(0deg)`;
             });
 
-            // --- 3. MENU SCROLL ANIMATIONS (Intersection Observer) ---
+            // --- 3. MENU SCROLL ANIMATIONS ---
             const observerOptions = {
-                root: menuOverlay, // Observe scrolling strictly within the menu
-                threshold: 0.1,    // Trigger when 10% of the item is visible
-                rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the bottom
+                root: menuOverlay, 
+                threshold: 0.1,    
+                rootMargin: "0px 0px -50px 0px" 
             };
 
-            const menuObserver = new IntersectionObserver((entries, observer) => {
+            const menuObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('show');
-                        // Optional: Stop observing once it has animated in
-                        // observer.unobserve(entry.target); 
                     }
                 });
             }, observerOptions);
@@ -731,15 +741,12 @@
             // --- 4. MENU OVERLAY TOGGLE ---
             ctaButton.addEventListener('click', () => {
                 menuOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Lock background scroll
+                document.body.style.overflow = 'hidden'; 
                 
-                // Attach the observer to all items so they animate as user scrolls the menu
                 animatedElements.forEach((el, index) => {
-                    // Stagger the first few items instantly so the screen isn't blank
                     if(index < 3) {
                         setTimeout(() => el.classList.add('show'), index * 150);
                     } else {
-                        // Observe the rest to animate on scroll
                         menuObserver.observe(el);
                     }
                 });
@@ -747,16 +754,66 @@
 
             closeMenu.addEventListener('click', () => {
                 menuOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto'; // Unlock background scroll
+                document.body.style.overflow = 'auto'; 
                 
-                // Reset animations so they play again next time menu opens
                 setTimeout(() => {
                     animatedElements.forEach(el => {
                         el.classList.remove('show');
                         menuObserver.unobserve(el);
                     });
-                }, 400); // Wait for menu to fade out before resetting
+                }, 400); 
             });
+
+            // --- 5. CONTENT SECTION TYPEWRITER EFFECT ---
+            const typewriterContainer = document.getElementById('typewriter-container');
+            const h2Element = typewriterContainer.querySelector('h2');
+            const pElement = typewriterContainer.querySelector('p');
+            
+            // Store original text
+            const h2Text = h2Element.textContent;
+            const pText = pElement.textContent;
+            
+            // Clear text initially
+            h2Element.textContent = '';
+            pElement.textContent = '';
+            
+            let hasTyped = false;
+
+            // Typewriter function
+            function typeText(element, text, speed, callback) {
+                element.classList.add('typing'); // Adds the blinking cursor
+                let i = 0;
+                
+                function typing() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typing, speed);
+                    } else {
+                        element.classList.remove('typing'); // Removes cursor when done
+                        if (callback) callback();
+                    }
+                }
+                typing();
+            }
+
+            // Observer to trigger typing when section is reached
+            const typeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasTyped) {
+                        hasTyped = true; 
+                        
+                        // Type H2 first (50ms per letter), then trigger P (25ms per letter)
+                        typeText(h2Element, h2Text, 50, () => {
+                            typeText(pElement, pText, 25);
+                        });
+                    }
+                });
+            }, { 
+                threshold: 0.5 // Triggers when 50% of the text container is visible
+            });
+
+            typeObserver.observe(typewriterContainer);
         });
     </script>
 </body>
