@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hieta Burgers - The Motswako Combo</title>
     
-    <!-- Uber-style Font: Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -25,6 +24,45 @@
             overflow-x: hidden;
         }
 
+        /* --- INTRO OVERLAY (For Audio Autoplay Policy) --- */
+        #intro-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #0a0200;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        #intro-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .start-btn {
+            background: transparent;
+            color: #f57c00;
+            border: 2px solid #f57c00;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            background: #f57c00;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(245, 124, 0, 0.6);
+            transform: scale(1.05);
+        }
+
         /* --- HERO SECTION --- */
         .hero {
             position: relative;
@@ -40,10 +78,7 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: radial-gradient(rgba(255, 100, 50, 0.04) 2px, transparent 2px);
             background-size: 30px 30px;
             background-color: rgba(0, 0, 0, 0.2); 
@@ -85,10 +120,7 @@
 
         .fleet-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; 
             z-index: 5; 
         }
@@ -120,7 +152,6 @@
             position: relative;
             z-index: 30; 
             margin-bottom: 50px;
-            /* Ensure fixed height so the layout doesn't jump while typing */
             min-height: 150px; 
         }
 
@@ -170,7 +201,7 @@
         .product-wrapper {
             position: relative;
             will-change: transform;
-            transition: transform 0.1s ease-out; 
+            /* Removed the 0.1s transition here so it doesn't conflict with our JS Lerp */
         }
 
         .falling-burger {
@@ -266,15 +297,10 @@
             transform: translateY(-5px) scale(1.05);
         }
 
-        /* =========================================
-           FULL SCREEN MENU UI WITH IMAGES & ANIMATION
-           ========================================= */
+        /* --- FULL SCREEN MENU UI --- */
         .menu-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(8, 2, 0, 0.95); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
@@ -296,167 +322,49 @@
 
         .close-menu {
             position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 3rem;
-            color: #fff;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 300;
-            transition: color 0.3s ease;
-            z-index: 1010;
+            top: 20px; right: 30px;
+            font-size: 3rem; color: #fff;
+            background: none; border: none; cursor: pointer;
+            font-weight: 300; transition: color 0.3s ease; z-index: 1010;
         }
 
         .close-menu:hover { color: #f57c00; }
 
-        .menu-container {
-            width: 100%;
-            max-width: 800px;
-        }
+        .menu-container { width: 100%; max-width: 800px; }
 
-        /* --- Scroll Animation Classes --- */
         .scroll-anim {
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
+        .scroll-anim.show { opacity: 1; transform: translateY(0); }
 
-        .scroll-anim.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .menu-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .menu-header h2 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .menu-header p {
-            color: #f57c00;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
+        .menu-header { text-align: center; margin-bottom: 50px; }
+        .menu-header h2 { font-size: 3.5rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+        .menu-header p { color: #f57c00; font-size: 1.2rem; font-weight: 700; }
 
         .menu-category {
-            margin-bottom: 40px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 100, 50, 0.1);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 40px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 100, 50, 0.1); border-radius: 15px;
+            padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+        .menu-category h3 { font-size: 2rem; color: #f57c00; margin-bottom: 20px; text-transform: uppercase; border-bottom: 2px solid rgba(245, 124, 0, 0.3); padding-bottom: 10px; }
 
-        .menu-category h3 {
-            font-size: 2rem;
-            color: #f57c00;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            border-bottom: 2px solid rgba(245, 124, 0, 0.3);
-            padding-bottom: 10px;
-        }
-
-        /* --- Menu Items with Images --- */
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
-            transition: background 0.3s ease;
-        }
-
+        .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); transition: background 0.3s ease; }
         .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover { background: rgba(255, 255, 255, 0.05); padding-left: 10px; padding-right: 10px; border-radius: 12px; }
 
-        .menu-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            padding-left: 10px;
-            padding-right: 10px;
-            border-radius: 12px;
-        }
+        .item-image { width: 80px; height: 80px; border-radius: 12px; overflow: hidden; flex-shrink: 0; margin-right: 20px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; }
+        .item-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .menu-item:hover .item-image img { transform: scale(1.1); }
 
-        /* Image Styling */
-        .item-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 12px;
-            overflow: hidden;
-            flex-shrink: 0; 
-            margin-right: 20px;
-            background: rgba(255,255,255,0.05); 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .menu-item:hover .item-image img {
-            transform: scale(1.1); 
-        }
-
-        .item-content {
-            display: flex;
-            flex-grow: 1;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .item-details h4 {
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .item-details p {
-            font-size: 0.9rem;
-            color: #aaa;
-            font-weight: 300;
-            max-width: 90%;
-        }
-
-        .item-price {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #ffecb3;
-        }
-
-        .add-to-cart {
-            background: transparent;
-            border: 1px solid #f57c00;
-            color: #f57c00;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-left: 15px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .add-to-cart:hover {
-            background: #f57c00;
-            color: #fff;
-            box-shadow: 0 5px 15px rgba(245, 124, 0, 0.4);
-        }
-
-        .price-action-wrapper {
-            display: flex;
-            align-items: center;
-        }
+        .item-content { display: flex; flex-grow: 1; justify-content: space-between; align-items: center; }
+        .item-details h4 { font-size: 1.3rem; color: #fff; margin-bottom: 5px; }
+        .item-details p { font-size: 0.9rem; color: #aaa; font-weight: 300; max-width: 90%; }
+        .item-price { font-size: 1.4rem; font-weight: 700; color: #ffecb3; }
+        .add-to-cart { background: transparent; border: 1px solid #f57c00; color: #f57c00; padding: 8px 15px; border-radius: 20px; font-weight: 700; cursor: pointer; margin-left: 15px; transition: all 0.3s ease; white-space: nowrap; }
+        .add-to-cart:hover { background: #f57c00; color: #fff; box-shadow: 0 5px 15px rgba(245, 124, 0, 0.4); }
+        .price-action-wrapper { display: flex; align-items: center; }
 
         /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 768px) {
@@ -470,7 +378,6 @@
             .falling-burger { width: 220px; }
             .sliding-coke { width: 200px; margin-left: -80px; }
 
-            /* Mobile Menu */
             .menu-overlay { padding: 60px 15px; }
             .menu-header h2 { font-size: 2.5rem; }
             .menu-category { padding: 20px 15px; }
@@ -478,7 +385,6 @@
             .item-details h4 { font-size: 1.1rem; }
             .item-details p { font-size: 0.85rem; }
             
-            /* Stack Price/Button on Mobile */
             .item-content { flex-direction: column; align-items: flex-start; }
             .price-action-wrapper { width: 100%; justify-content: space-between; margin-top: 10px; }
             .add-to-cart { margin-left: 0; padding: 6px 12px; }
@@ -487,7 +393,12 @@
 </head>
 <body>
 
-    <!-- HERO SECTION -->
+    <audio id="announcer-audio" src="announcer.mp3" preload="auto"></audio>
+
+    <div id="intro-overlay">
+        <button class="start-btn" id="start-btn">Start Experience</button>
+    </div>
+
     <header class="hero" id="hero-section">
         <div class="fleet-container">
             <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Burger" class="floating-item floating-item-1">
@@ -502,7 +413,6 @@
         </div>
     </header>
 
-    <!-- CONTENT SECTION -->
     <section class="content-section">
         <div class="text-wrapper" id="typewriter-container">
             <h2>The Motswako Combo</h2>
@@ -526,24 +436,18 @@
         </div>
     </section>
 
-    <!-- FULL SCREEN MENU OVERLAY -->
     <div class="menu-overlay" id="menu-overlay">
         <button class="close-menu" id="close-menu">&times;</button>
-        
         <div class="menu-container">
             <div class="menu-header scroll-anim">
                 <h2>Our Menu</h2>
                 <p>Freshly Grilled. Ice Cold. Ready to Eat.</p>
             </div>
 
-            <!-- Category 1 -->
             <div class="menu-category scroll-anim">
                 <h3>Signature Combos</h3>
-                
                 <div class="menu-item scroll-anim">
-                    <div class="item-image">
-                        <img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Combo">
-                    </div>
+                    <div class="item-image"><img src="https://i.postimg.cc/k4hTbfw7/Gemini-Generated-Image-bt0cxabt0cxabt0c-removebg-preview.png" alt="Combo"></div>
                     <div class="item-content">
                         <div class="item-details">
                             <h4>The Motswako Combo</h4>
@@ -555,11 +459,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="menu-item scroll-anim">
-                    <div class="item-image">
-                        <img src="https://images.unsplash.com/photo-1594212202875-5205566bd430?w=200&h=200&fit=crop" alt="Spicy Double">
-                    </div>
+                    <div class="item-image"><img src="https://images.unsplash.com/photo-1594212202875-5205566bd430?w=200&h=200&fit=crop" alt="Spicy Double"></div>
                     <div class="item-content">
                         <div class="item-details">
                             <h4>Spicy Hieta Double</h4>
@@ -573,14 +474,10 @@
                 </div>
             </div>
 
-            <!-- Category 2 -->
             <div class="menu-category scroll-anim">
                 <h3>Burgers Only</h3>
-                
                 <div class="menu-item scroll-anim">
-                    <div class="item-image">
-                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=200&fit=crop" alt="Cheeseburger">
-                    </div>
+                    <div class="item-image"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=200&fit=crop" alt="Cheeseburger"></div>
                     <div class="item-content">
                         <div class="item-details">
                             <h4>Classic Cheeseburger</h4>
@@ -592,66 +489,20 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="menu-item scroll-anim">
-                    <div class="item-image">
-                        <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=200&h=200&fit=crop" alt="Chicken Burger">
-                    </div>
-                    <div class="item-content">
-                        <div class="item-details">
-                            <h4>The Big Flava Chicken</h4>
-                            <p>Crispy buttermilk fried chicken breast with spicy mayo and slaw.</p>
-                        </div>
-                        <div class="price-action-wrapper">
-                            <span class="item-price">R85</span>
-                            <button class="add-to-cart">+ Add</button>
-                        </div>
-                    </div>
-                </div>
             </div>
-
-            <!-- Category 3 -->
-            <div class="menu-category scroll-anim">
-                <h3>Sides & Refreshments</h3>
-                
-                <div class="menu-item scroll-anim">
-                    <div class="item-image">
-                        <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?w=200&h=200&fit=crop" alt="Loaded Fries">
-                    </div>
-                    <div class="item-content">
-                        <div class="item-details">
-                            <h4>Loaded Fries</h4>
-                            <p>Crispy fries smothered in cheese sauce and crispy bacon bits.</p>
-                        </div>
-                        <div class="price-action-wrapper">
-                            <span class="item-price">R45</span>
-                            <button class="add-to-cart">+ Add</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="menu-item scroll-anim">
-                    <div class="item-image">
-                        <img src="https://i.postimg.cc/bJfc4Y1d/Gemini-Generated-Image-2ouib2ouib2ouib2-removebg-preview.png" alt="Coke Can">
-                    </div>
-                    <div class="item-content">
-                        <div class="item-details">
-                            <h4>Ice Cold Coke (Can)</h4>
-                            <p>300ml perfectly chilled Coca-Cola.</p>
-                        </div>
-                        <div class="price-action-wrapper">
-                            <span class="item-price">R20</span>
-                            <button class="add-to-cart">+ Add</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Intro & Audio
+            const startBtn = document.getElementById('start-btn');
+            const introOverlay = document.getElementById('intro-overlay');
+            const announcerAudio = document.getElementById('announcer-audio');
+            let audioContextUnlocked = false;
+            let hasAnnouncerPlayed = false;
+
             // Parallax Elements
             const heroText = document.getElementById('hero-text');
             const burgers = document.querySelectorAll('.floating-item');
@@ -667,26 +518,54 @@
             
             let isLanded = false;
 
-            // --- 1. MAIN PAGE SCROLL LOGIC ---
+            // Smooth Scroll Variables (Lerp)
+            let currentScroll = 0;
+            let targetScroll = 0;
+            const ease = 0.08; // The "lag" effect. Lower number = heavier feel.
+
+            // --- 0. UNLOCK EXPERIENCE & AUDIO ---
+            startBtn.addEventListener('click', () => {
+                introOverlay.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Re-enable scroll if you locked it
+                audioContextUnlocked = true;
+                
+                // Play a silent snippet to unlock audio element on iOS/Safari
+                announcerAudio.volume = 0;
+                announcerAudio.play().then(() => {
+                    announcerAudio.pause();
+                    announcerAudio.currentTime = 0;
+                    announcerAudio.volume = 1; // reset volume for the real playback
+                }).catch(e => console.log("Audio unlock failed: ", e));
+            });
+
+            // Prevent scrolling until start button is clicked
+            document.body.style.overflow = 'hidden';
+
+            // --- 1. MAIN PAGE SCROLL LOGIC (LERP) ---
             window.addEventListener('scroll', () => {
-                let scrollPosition = window.scrollY;
+                targetScroll = window.scrollY;
+            });
+
+            function animateParallax() {
+                // Easing formula
+                currentScroll += (targetScroll - currentScroll) * ease;
                 let screenHeight = window.innerHeight;
 
-                heroText.style.transform = `translateY(${scrollPosition * 0.4}px)`;
-                heroText.style.opacity = Math.max(0, 1 - (scrollPosition / (screenHeight * 0.6)));
+                heroText.style.transform = `translateY(${currentScroll * 0.4}px)`;
+                heroText.style.opacity = Math.max(0, 1 - (currentScroll / (screenHeight * 0.6)));
 
                 burgers.forEach((burger, index) => {
                     let moveX, moveY, rotateAngle;
-                    if (index === 0) { moveX = scrollPosition * 1.5; moveY = -(scrollPosition * 0.5); rotateAngle = scrollPosition * 0.05; }
-                    else if (index === 1) { moveX = -(scrollPosition * 1.2); moveY = scrollPosition * 0.3; rotateAngle = -(scrollPosition * 0.08); }
-                    else if (index === 2) { moveX = scrollPosition * 0.8; moveY = -(scrollPosition * 0.8); rotateAngle = scrollPosition * 0.03; }
-                    else if (index === 3) { moveX = -(scrollPosition * 0.2); moveY = -(scrollPosition * 1.6); rotateAngle = -15 - (scrollPosition * 0.06); }
-                    else if (index === 4) { moveX = scrollPosition * 0.3; moveY = -(scrollPosition * 2.0); rotateAngle = 20 + (scrollPosition * 0.04); }
+                    if (index === 0) { moveX = currentScroll * 1.5; moveY = -(currentScroll * 0.5); rotateAngle = currentScroll * 0.05; }
+                    else if (index === 1) { moveX = -(currentScroll * 1.2); moveY = currentScroll * 0.3; rotateAngle = -(currentScroll * 0.08); }
+                    else if (index === 2) { moveX = currentScroll * 0.8; moveY = -(currentScroll * 0.8); rotateAngle = currentScroll * 0.03; }
+                    else if (index === 3) { moveX = -(currentScroll * 0.2); moveY = -(currentScroll * 1.6); rotateAngle = -15 - (currentScroll * 0.06); }
+                    else if (index === 4) { moveX = currentScroll * 0.3; moveY = -(currentScroll * 2.0); rotateAngle = 20 + (currentScroll * 0.04); }
                     burger.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateAngle}deg)`;
                 });
 
                 const SCROLL_DURATION = screenHeight * 0.9;
-                let progress = Math.min(scrollPosition / SCROLL_DURATION, 1);
+                let progress = Math.min(currentScroll / SCROLL_DURATION, 1);
 
                 let burgerDropY = (1 - progress) * -900;
                 let burgerSpin = progress * 360;
@@ -696,17 +575,28 @@
                 let cokeSlideX = (1 - progress) * startSlideX;
                 cokeWrapper.style.transform = `translateX(${cokeSlideX}px)`;
 
-                if (progress === 1 && !isLanded) {
+                // Trigger landing effects and announcer
+                if (progress > 0.95 && !isLanded) {
                     isLanded = true;
                     landingPad.classList.add('landed');
                     ctaButton.classList.add('visible');
-                } else if (progress < 1 && isLanded) {
+                    
+                    // Play announcer audio when the burger lands
+                    if (audioContextUnlocked && !hasAnnouncerPlayed) {
+                        announcerAudio.play().catch(e => console.log(e));
+                        hasAnnouncerPlayed = true;
+                    }
+
+                } else if (progress < 0.95 && isLanded) {
                     isLanded = false;
                     landingPad.classList.remove('landed');
                     ctaButton.classList.remove('visible');
                     landingPad.style.transform = `rotateX(0deg) rotateY(0deg)`;
                 }
-            });
+
+                requestAnimationFrame(animateParallax);
+            }
+            animateParallax();
 
             // --- 2. 3D HOVER TILT ---
             landingPad.addEventListener('mousemove', (e) => {
@@ -769,19 +659,16 @@
             const h2Element = typewriterContainer.querySelector('h2');
             const pElement = typewriterContainer.querySelector('p');
             
-            // Store original text
             const h2Text = h2Element.textContent;
             const pText = pElement.textContent;
             
-            // Clear text initially
             h2Element.textContent = '';
             pElement.textContent = '';
             
             let hasTyped = false;
 
-            // Typewriter function
             function typeText(element, text, speed, callback) {
-                element.classList.add('typing'); // Adds the blinking cursor
+                element.classList.add('typing'); 
                 let i = 0;
                 
                 function typing() {
@@ -790,28 +677,23 @@
                         i++;
                         setTimeout(typing, speed);
                     } else {
-                        element.classList.remove('typing'); // Removes cursor when done
+                        element.classList.remove('typing'); 
                         if (callback) callback();
                     }
                 }
                 typing();
             }
 
-            // Observer to trigger typing when section is reached
             const typeObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !hasTyped) {
                         hasTyped = true; 
-                        
-                        // Type H2 first (50ms per letter), then trigger P (25ms per letter)
                         typeText(h2Element, h2Text, 50, () => {
                             typeText(pElement, pText, 25);
                         });
                     }
                 });
-            }, { 
-                threshold: 0.5 // Triggers when 50% of the text container is visible
-            });
+            }, { threshold: 0.5 });
 
             typeObserver.observe(typewriterContainer);
         });
