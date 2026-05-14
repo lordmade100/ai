@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Service - Motion Ad</title>
+    <title>Steward AI - Interactive Motion Ad</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -18,230 +18,281 @@
         }
 
         body {
-            background-color: #050505;
-            color: #fff;
-            overflow: hidden; /* Lock scroll for a pure hero experience */
+            background-color: #ffffff;
+            color: #111111;
+            overflow-x: hidden;
+            /* Extra long body to allow scrolling */
+            height: 400vh; 
         }
 
-        /* --- HERO CONTAINER --- */
-        .hero {
-            position: relative;
+        /* --- THE FIXED LOGO (The Star of the Show) --- */
+        #fixed-logo-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #1a1511 0%, #050505 80%);
-            perspective: 1000px;
-            overflow: hidden;
+            pointer-events: none; /* Let clicks pass through to content */
+            z-index: 50;
         }
 
-        /* --- PARALLAX LAYERS --- */
-        .layer-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Let mouse events pass through to the document */
+        #steward-logo {
+            width: 400px;
+            will-change: transform;
+            /* Smooth catching-up effect for the scroll */
+            transition: transform 0.1s ease-out; 
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1));
+        }
+
+        /* --- SCROLL SECTIONS --- */
+        .section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-        }
-
-        .parallax-item {
-            position: absolute;
-            will-change: transform;
-            transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        /* Background floating elements (Blurred, slow) */
-        .item-bg-1 {
-            width: 150px;
-            top: 15%;
-            left: 10%;
-            filter: blur(8px) drop-shadow(0 10px 15px rgba(0,0,0,0.8));
-            opacity: 0.4;
-        }
-
-        .item-bg-2 {
-            width: 200px;
-            bottom: 20%;
-            right: 15%;
-            filter: blur(5px) drop-shadow(0 10px 15px rgba(0,0,0,0.8));
-            opacity: 0.6;
-        }
-
-        /* Midground main element (Sharp, follows mouse moderately) */
-        .item-main {
-            width: 450px;
-            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.95));
+            padding: 0 10vw;
             z-index: 10;
         }
 
-        /* Foreground floating element (Very blurred, moves fast) */
-        .item-fg {
-            width: 300px;
-            bottom: -5%;
-            left: 20%;
-            filter: blur(12px) drop-shadow(0 20px 20px rgba(0,0,0,0.9));
-            opacity: 0.8;
-            z-index: 20;
-        }
-
-        /* --- AD TEXT CONTENT --- */
-        .content {
-            position: relative;
-            z-index: 15; /* Sits between the main image and foreground */
+        /* Section 1: Hero Centered */
+        #sec-1 {
+            justify-content: center;
             text-align: center;
-            pointer-events: auto;
         }
 
-        .content h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            background: linear-gradient(45deg, #f5d061, #e6a32e);
+        /* Section 2: Text on Right */
+        #sec-2 {
+            justify-content: flex-end;
+        }
+
+        /* Section 3: Text on Left */
+        #sec-3 {
+            justify-content: flex-start;
+        }
+
+        /* Section 4: Final CTA Centered */
+        #sec-4 {
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(180deg, #ffffff 0%, #f4f4f9 100%);
+        }
+
+        /* --- TYPOGRAPHY & ANIMATIONS --- */
+        .text-block {
+            max-width: 500px;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .text-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-block h1, .text-block h2 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0d1b2a, #1b263b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0px 15px 30px rgba(0,0,0,0.8);
         }
 
-        .content p {
-            font-size: 1.5rem;
+        #sec-1 .text-block h1 {
+            font-size: 5.5rem;
+            margin-top: 400px; /* Push text below the initial huge logo */
+        }
+
+        .text-block p {
+            font-size: 1.3rem;
             font-weight: 300;
-            color: #d4d4d4;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-            text-shadow: 0px 5px 15px rgba(0,0,0,0.9);
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: #415a77;
+            font-weight: 500;
         }
 
         .cta-btn {
-            background: transparent;
-            color: #f5d061;
-            border: 2px solid #f5d061;
-            padding: 15px 40px;
+            margin-top: 30px;
+            background: #1b263b;
+            color: #ffffff;
+            border: none;
+            padding: 18px 45px;
             font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 20px rgba(27, 38, 59, 0.2);
+            pointer-events: auto; /* Re-enable clicks */
         }
 
         .cta-btn:hover {
-            background: #f5d061;
-            color: #050505;
-            box-shadow: 0 0 30px rgba(245, 208, 97, 0.4);
             transform: translateY(-5px);
-        }
-
-        /* --- LIGHTING EFFECTS --- */
-        .glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(230, 163, 46, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 1;
+            box-shadow: 0 15px 30px rgba(27, 38, 59, 0.3);
+            background: #0d1b2a;
         }
 
         /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 768px) {
-            .content h1 { font-size: 3rem; }
-            .content p { font-size: 1rem; }
-            .item-main { width: 300px; }
-            .item-bg-1, .item-bg-2, .item-fg { display: none; /* Simplify on mobile */ }
+            #steward-logo { width: 250px; }
+            #sec-1 .text-block h1 { font-size: 3.5rem; margin-top: 250px; }
+            .text-block h1, .text-block h2 { font-size: 2.5rem; }
+            .section { padding: 0 5vw; justify-content: center !important; text-align: center; }
+            .text-block { background: rgba(255,255,255,0.8); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px); }
         }
     </style>
 </head>
 <body>
 
-    <main class="hero">
-        <div class="glow" id="mouse-glow"></div>
+    <!-- The dropping, moving logo -->
+    <div id="fixed-logo-container">
+        <img src="https://i.postimg.cc/X77SQ5mk/steward-icon.png" alt="Steward AI" id="steward-logo">
+    </div>
 
-        <!-- Parallax Background -->
-        <div class="layer-container">
-            <img src="https://i.postimg.cc/X77SQ5mk/steward-icon.png" alt="Steward Icon" class="parallax-item item-bg-1" data-speed="-2">
-            <img src="https://i.postimg.cc/X77SQ5mk/steward-icon.png" alt="Steward Icon" class="parallax-item item-bg-2" data-speed="1.5">
+    <!-- Section 1: Intro -->
+    <section class="section" id="sec-1">
+        <div class="text-block">
+            <h1>Meet Steward.</h1>
+            <p>Your intelligent frontline for technical support.</p>
         </div>
+    </section>
 
-        <!-- Ad Text -->
-        <div class="content parallax-item" data-speed="0.5">
-            <h1>At Your Service</h1>
-            <p>The gold standard, delivered perfectly.</p>
-            <button class="cta-btn">Experience Now</button>
+    <!-- Section 2: Feature 1 -->
+    <section class="section" id="sec-2">
+        <div class="text-block">
+            <h2>Instant Diagnostics.</h2>
+            <p>From routine computer inquiries to complex system troubleshooting. Steward understands the problem before the conversation even begins.</p>
         </div>
+    </section>
 
-        <!-- Parallax Midground (Main focus) -->
-        <div class="layer-container">
-            <img src="https://i.postimg.cc/X77SQ5mk/steward-icon.png" alt="Steward Icon" class="parallax-item item-main" data-speed="3">
+    <!-- Section 3: Feature 2 -->
+    <section class="section" id="sec-3">
+        <div class="text-block">
+            <h2>Human when you need it.</h2>
+            <p>Some issues need a <span class="highlight">Rare Grade Tech</span> expert. Steward seamlessly orchestrates direct call-backs, bridging the gap between AI efficiency and human expertise.</p>
         </div>
+    </section>
 
-        <!-- Parallax Foreground -->
-        <div class="layer-container">
-            <img src="https://i.postimg.cc/X77SQ5mk/steward-icon.png" alt="Steward Icon" class="parallax-item item-fg" data-speed="6">
+    <!-- Section 4: Outro / CTA -->
+    <section class="section" id="sec-4">
+        <div class="text-block">
+            <h2>Support, Redefined.</h2>
+            <p>Deploy the ultimate AI assistant for your IT infrastructure today.</p>
+            <button class="cta-btn">Initialize Steward</button>
         </div>
-    </main>
+    </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const parallaxItems = document.querySelectorAll('.parallax-item');
-            const glow = document.getElementById('mouse-glow');
-            const hero = document.querySelector('.hero');
+            const logo = document.getElementById('steward-logo');
+            const textBlocks = document.querySelectorAll('.text-block');
+            
+            // --- 1. INTERSECTION OBSERVER FOR TEXT REVEALS ---
+            // Triggers the fade-in and slide-up when text comes into view
+            const observerOptions = {
+                root: null,
+                threshold: 0.4, // Triggers when 40% of the element is visible
+                rootMargin: "0px"
+            };
 
-            // Variables for smooth interpolation (Lerping)
-            let mouseX = 0;
-            let mouseY = 0;
-            let currentX = 0;
-            let currentY = 0;
+            const textObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
 
-            // Track mouse movement
-            hero.addEventListener('mousemove', (e) => {
-                // Calculate mouse position relative to the center of the screen
-                mouseX = (e.clientX - window.innerWidth / 2);
-                mouseY = (e.clientY - window.innerHeight / 2);
-                
-                // Move the ambient glow instantly with the cursor
-                glow.style.transform = `translate(calc(-50% + ${mouseX * 0.2}px), calc(-50% + ${mouseY * 0.2}px))`;
+            textBlocks.forEach(block => textObserver.observe(block));
+
+            // --- 2. SCROLL-DRIVEN LOGO KINEMATICS ---
+            // Calculate how far down the page we've scrolled (0 to 1)
+            let currentScroll = 0;
+            let targetScroll = 0;
+            const ease = 0.08;
+
+            window.addEventListener('scroll', () => {
+                targetScroll = window.scrollY;
             });
 
-            // Animation loop for smooth parallax effect
-            function animate() {
-                // Lerp formula: current = current + (target - current) * ease
-                currentX += (mouseX - currentX) * 0.1;
-                currentY += (mouseY - currentY) * 0.1;
+            function animateLogo() {
+                currentScroll += (targetScroll - currentScroll) * ease;
+                
+                // Max scrollable height (Total height - Viewport height)
+                const maxScroll = document.body.scrollHeight - window.innerHeight;
+                // Progress from 0 (top) to 1 (bottom)
+                const progress = Math.max(0, Math.min(currentScroll / maxScroll, 1)); 
 
-                parallaxItems.forEach(item => {
-                    const speed = parseFloat(item.getAttribute('data-speed'));
-                    // Calculate movement based on the item's specific speed attribute
-                    const x = (currentX * speed) / 100;
-                    const y = (currentY * speed) / 100;
+                // --- KINEMATICS MATH ---
+                let scale = 1;
+                let xPos = 0;
+                let yPos = 0;
+                let rotation = 0;
 
-                    // Apply the translation
-                    item.style.transform = `translate(${x}px, ${y}px)`;
-                });
+                const screenWidth = window.innerWidth;
+                const isMobile = screenWidth <= 768;
 
-                requestAnimationFrame(animate);
+                if (progress < 0.25) {
+                    // Stage 1: Hero (Centered, slowly shrinking)
+                    // Progress from 0 to 0.25 becomes a local 0 to 1
+                    let localProg = progress / 0.25; 
+                    scale = 1 - (localProg * 0.3); // Shrinks from 1 to 0.7
+                    yPos = -(localProg * 50); // Moves up slightly
+                    
+                } else if (progress < 0.5) {
+                    // Stage 2: Moving Left for Section 2
+                    let localProg = (progress - 0.25) / 0.25;
+                    scale = 0.7 - (localProg * 0.2); // Shrinks from 0.7 to 0.5
+                    
+                    // On mobile, keep it centered. On desktop, move it to the left.
+                    const targetX = isMobile ? 0 : -(screenWidth * 0.25); 
+                    xPos = localProg * targetX;
+                    yPos = -50 + (localProg * 100); // Drops down slightly
+                    rotation = localProg * -15; // Tilts left
+                    
+                } else if (progress < 0.75) {
+                    // Stage 3: Moving Right for Section 3
+                    let localProg = (progress - 0.5) / 0.25;
+                    scale = 0.5;
+                    
+                    const startX = isMobile ? 0 : -(screenWidth * 0.25);
+                    const targetX = isMobile ? 0 : (screenWidth * 0.25);
+                    xPos = startX + (localProg * (targetX - startX)); // Swings from left to right
+                    
+                    yPos = 50; 
+                    rotation = -15 + (localProg * 30); // Tilts from -15 to +15
+                    
+                } else {
+                    // Stage 4: Returning Center for CTA
+                    let localProg = (progress - 0.75) / 0.25;
+                    scale = 0.5 + (localProg * 0.3); // Grows back to 0.8
+                    
+                    const startX = isMobile ? 0 : (screenWidth * 0.25);
+                    xPos = startX - (localProg * startX); // Returns to 0
+                    
+                    yPos = 50 - (localProg * 150); // Moves up to make room for CTA
+                    rotation = 15 - (localProg * 15); // Returns to 0 rotation
+                }
+
+                // Apply the calculated transforms
+                logo.style.transform = `translate(${xPos}px, ${yPos}px) scale(${scale}) rotate(${rotation}deg)`;
+
+                requestAnimationFrame(animateLogo);
             }
 
-            // Start the animation loop
-            animate();
-
-            // Reset positions gently if the mouse leaves the window
-            document.addEventListener('mouseleave', () => {
-                mouseX = 0;
-                mouseY = 0;
-                glow.style.transform = `translate(-50%, -50%)`;
-            });
+            animateLogo();
         });
     </script>
 </body>
