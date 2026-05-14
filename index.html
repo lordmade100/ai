@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steward AI - Interactive Motion Ad</title>
+    <title>Steward AI - The Deep Pass</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,11 +21,10 @@
             background-color: #ffffff;
             color: #111111;
             overflow-x: hidden;
-            /* Extra long body to allow scrolling */
-            height: 400vh; 
+            height: 500vh; /* Deep scroll for the passing effect */
         }
 
-        /* --- THE FIXED LOGO (The Star of the Show) --- */
+        /* --- THE LOGO --- */
         #fixed-logo-container {
             position: fixed;
             top: 0;
@@ -35,16 +34,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            pointer-events: none; /* Let clicks pass through to content */
-            z-index: 50;
+            pointer-events: none;
+            z-index: 5; /* Lower than cards initially */
         }
 
         #steward-logo {
-            width: 400px;
-            will-change: transform;
-            /* Smooth catching-up effect for the scroll */
-            transition: transform 0.1s ease-out; 
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1));
+            width: 350px;
+            will-change: transform, z-index;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
         }
 
         /* --- SCROLL SECTIONS --- */
@@ -54,245 +51,175 @@
             height: 100vh;
             display: flex;
             align-items: center;
+            justify-content: center;
             padding: 0 10vw;
-            z-index: 10;
         }
 
-        /* Section 1: Hero Centered */
-        #sec-1 {
-            justify-content: center;
+        /* --- CARDS --- */
+        .card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            max-width: 550px;
             text-align: center;
+            z-index: 10; /* Cards stay above the small logo */
+            will-change: opacity, transform, filter;
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        /* Section 2: Text on Right */
-        #sec-2 {
-            justify-content: flex-end;
-        }
-
-        /* Section 3: Text on Left */
-        #sec-3 {
-            justify-content: flex-start;
-        }
-
-        /* Section 4: Final CTA Centered */
-        #sec-4 {
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(180deg, #ffffff 0%, #f4f4f9 100%);
-        }
-
-        /* --- TYPOGRAPHY & ANIMATIONS --- */
-        .text-block {
-            max-width: 500px;
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .text-block.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .text-block h1, .text-block h2 {
-            font-size: 4rem;
+        .card h2 {
+            font-size: 3rem;
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #0d1b2a, #1b263b);
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #1b263b, #415a77);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        #sec-1 .text-block h1 {
-            font-size: 5.5rem;
-            margin-top: 400px; /* Push text below the initial huge logo */
-        }
-
-        .text-block p {
-            font-size: 1.3rem;
-            font-weight: 300;
+        .card p {
+            font-size: 1.2rem;
             color: #555;
             line-height: 1.6;
         }
 
-        .highlight {
-            color: #415a77;
-            font-weight: 500;
+        /* CTA Specific Styling */
+        #final-card {
+            background: #1b263b;
         }
+        #final-card h2 {
+            background: #fff;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #final-card p { color: #ccc; }
 
         .cta-btn {
-            margin-top: 30px;
-            background: #1b263b;
-            color: #ffffff;
+            margin-top: 25px;
+            background: #ffffff;
+            color: #1b263b;
             border: none;
-            padding: 18px 45px;
-            font-size: 1.2rem;
+            padding: 15px 35px;
+            font-size: 1rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(27, 38, 59, 0.2);
-            pointer-events: auto; /* Re-enable clicks */
+            transition: 0.3s;
         }
 
         .cta-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(27, 38, 59, 0.3);
-            background: #0d1b2a;
-        }
-
-        /* --- MOBILE RESPONSIVENESS --- */
-        @media (max-width: 768px) {
-            #steward-logo { width: 250px; }
-            #sec-1 .text-block h1 { font-size: 3.5rem; margin-top: 250px; }
-            .text-block h1, .text-block h2 { font-size: 2.5rem; }
-            .section { padding: 0 5vw; justify-content: center !important; text-align: center; }
-            .text-block { background: rgba(255,255,255,0.8); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px); }
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
 
-    <!-- The dropping, moving logo -->
     <div id="fixed-logo-container">
         <img src="https://i.postimg.cc/X77SQ5mk/steward-icon.png" alt="Steward AI" id="steward-logo">
     </div>
 
     <!-- Section 1: Intro -->
-    <section class="section" id="sec-1">
-        <div class="text-block">
-            <h1>Meet Steward.</h1>
-            <p>Your intelligent frontline for technical support.</p>
+    <section class="section">
+        <div class="card" data-index="1">
+            <h2>Hi, I'm Steward</h2>
+            <p>I'm your new AI Support Pilot. Scroll down and watch me dive into your workflow.</p>
         </div>
     </section>
 
-    <!-- Section 2: Feature 1 -->
-    <section class="section" id="sec-2">
-        <div class="text-block">
-            <h2>Instant Diagnostics.</h2>
-            <p>From routine computer inquiries to complex system troubleshooting. Steward understands the problem before the conversation even begins.</p>
+    <!-- Section 2: Support -->
+    <section class="section">
+        <div class="card" data-index="2">
+            <h2>Always Awake</h2>
+            <p>Handling diagnostics and computer inquiries 24/7. No downtime, just answers.</p>
         </div>
     </section>
 
-    <!-- Section 3: Feature 2 -->
-    <section class="section" id="sec-3">
-        <div class="text-block">
-            <h2>Human when you need it.</h2>
-            <p>Some issues need a <span class="highlight">Rare Grade Tech</span> expert. Steward seamlessly orchestrates direct call-backs, bridging the gap between AI efficiency and human expertise.</p>
+    <!-- Section 3: Connection -->
+    <section class="section">
+        <div class="card" data-index="3">
+            <h2>The Rare Bridge</h2>
+            <p>If things get complex, I arrange call-backs with the Rare Grade Tech elite team instantly.</p>
         </div>
     </section>
 
-    <!-- Section 4: Outro / CTA -->
-    <section class="section" id="sec-4">
-        <div class="text-block">
-            <h2>Support, Redefined.</h2>
-            <p>Deploy the ultimate AI assistant for your IT infrastructure today.</p>
-            <button class="cta-btn">Initialize Steward</button>
+    <!-- Section 4: Final -->
+    <section class="section">
+        <div class="card" id="final-card" data-index="4">
+            <h2>Ready to Deploy?</h2>
+            <p>Transform your technical support infrastructure today.</p>
+            <button class="cta-btn">Initialize System</button>
         </div>
     </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const logo = document.getElementById('steward-logo');
-            const textBlocks = document.querySelectorAll('.text-block');
+            const logoContainer = document.getElementById('fixed-logo-container');
+            const cards = document.querySelectorAll('.card');
             
-            // --- 1. INTERSECTION OBSERVER FOR TEXT REVEALS ---
-            // Triggers the fade-in and slide-up when text comes into view
-            const observerOptions = {
-                root: null,
-                threshold: 0.4, // Triggers when 40% of the element is visible
-                rootMargin: "0px"
-            };
-
-            const textObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, observerOptions);
-
-            textBlocks.forEach(block => textObserver.observe(block));
-
-            // --- 2. SCROLL-DRIVEN LOGO KINEMATICS ---
-            // Calculate how far down the page we've scrolled (0 to 1)
-            let currentScroll = 0;
             let targetScroll = 0;
-            const ease = 0.08;
+            let currentScroll = 0;
+            const ease = 0.1;
 
             window.addEventListener('scroll', () => {
                 targetScroll = window.scrollY;
             });
 
-            function animateLogo() {
+            function update() {
                 currentScroll += (targetScroll - currentScroll) * ease;
-                
-                // Max scrollable height (Total height - Viewport height)
-                const maxScroll = document.body.scrollHeight - window.innerHeight;
-                // Progress from 0 (top) to 1 (bottom)
-                const progress = Math.max(0, Math.min(currentScroll / maxScroll, 1)); 
+                const vh = window.innerHeight;
+                const totalHeight = document.body.scrollHeight - vh;
+                const scrollPercent = currentScroll / totalHeight;
 
-                // --- KINEMATICS MATH ---
-                let scale = 1;
-                let xPos = 0;
-                let yPos = 0;
-                let rotation = 0;
+                // 1. SCROLL LOGIC PER CARD
+                cards.forEach((card, i) => {
+                    const sectionTop = vh * i;
+                    const sectionBottom = vh * (i + 1);
+                    
+                    // How far are we through this specific section (0 to 1)
+                    let cardProgress = (currentScroll - sectionTop) / vh;
+                    
+                    if (cardProgress > 0 && cardProgress < 1) {
+                        // LOGO PASSING EFFECT
+                        // If cardProgress is near 0.5, the logo is "at" the card
+                        if (cardProgress > 0.4) {
+                            // Fade card out as logo "hits" it
+                            const fade = 1 - ((cardProgress - 0.4) * 2.5);
+                            card.style.opacity = Math.max(0, fade);
+                            card.style.transform = `scale(${Math.max(0.8, fade)}) translateY(${(cardProgress - 0.4) * -50}px)`;
+                            card.style.filter = `blur(${(cardProgress - 0.4) * 10}px)`;
+                        } else {
+                            card.style.opacity = "1";
+                            card.style.transform = "scale(1) translateY(0)";
+                            card.style.filter = "blur(0px)";
+                        }
 
-                const screenWidth = window.innerWidth;
-                const isMobile = screenWidth <= 768;
+                        // LOGO DEPTH
+                        // Logo starts small (0.4) and grows to large (2.0) as it passes
+                        let logoScale = 0.4 + (cardProgress * 1.6);
+                        logo.style.transform = `scale(${logoScale})`;
+                        
+                        // Z-INDEX FLIP: When logo passes the halfway point, it comes to the front
+                        if (cardProgress > 0.5) {
+                            logoContainer.style.zIndex = "20";
+                        } else {
+                            logoContainer.style.zIndex = "5";
+                        }
+                    }
+                });
 
-                if (progress < 0.25) {
-                    // Stage 1: Hero (Centered, slowly shrinking)
-                    // Progress from 0 to 0.25 becomes a local 0 to 1
-                    let localProg = progress / 0.25; 
-                    scale = 1 - (localProg * 0.3); // Shrinks from 1 to 0.7
-                    yPos = -(localProg * 50); // Moves up slightly
-                    
-                } else if (progress < 0.5) {
-                    // Stage 2: Moving Left for Section 2
-                    let localProg = (progress - 0.25) / 0.25;
-                    scale = 0.7 - (localProg * 0.2); // Shrinks from 0.7 to 0.5
-                    
-                    // On mobile, keep it centered. On desktop, move it to the left.
-                    const targetX = isMobile ? 0 : -(screenWidth * 0.25); 
-                    xPos = localProg * targetX;
-                    yPos = -50 + (localProg * 100); // Drops down slightly
-                    rotation = localProg * -15; // Tilts left
-                    
-                } else if (progress < 0.75) {
-                    // Stage 3: Moving Right for Section 3
-                    let localProg = (progress - 0.5) / 0.25;
-                    scale = 0.5;
-                    
-                    const startX = isMobile ? 0 : -(screenWidth * 0.25);
-                    const targetX = isMobile ? 0 : (screenWidth * 0.25);
-                    xPos = startX + (localProg * (targetX - startX)); // Swings from left to right
-                    
-                    yPos = 50; 
-                    rotation = -15 + (localProg * 30); // Tilts from -15 to +15
-                    
-                } else {
-                    // Stage 4: Returning Center for CTA
-                    let localProg = (progress - 0.75) / 0.25;
-                    scale = 0.5 + (localProg * 0.3); // Grows back to 0.8
-                    
-                    const startX = isMobile ? 0 : (screenWidth * 0.25);
-                    xPos = startX - (localProg * startX); // Returns to 0
-                    
-                    yPos = 50 - (localProg * 150); // Moves up to make room for CTA
-                    rotation = 15 - (localProg * 15); // Returns to 0 rotation
-                }
+                // 2. LOGO POSITION (Slight drift for motion feel)
+                const drift = Math.sin(currentScroll * 0.005) * 10;
+                const currentTransform = logo.style.transform; // Keep scale
+                logo.style.transform = `${currentTransform} translateY(${drift}px)`;
 
-                // Apply the calculated transforms
-                logo.style.transform = `translate(${xPos}px, ${yPos}px) scale(${scale}) rotate(${rotation}deg)`;
-
-                requestAnimationFrame(animateLogo);
+                requestAnimationFrame(update);
             }
 
-            animateLogo();
+            update();
         });
     </script>
 </body>
