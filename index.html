@@ -1,595 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Steward AI — The Deep Pass</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultant Dashboard | Rare Grade Tech</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        :root {
+            --bg-main: #F0F4F9;
+            --white: #FFFFFF;
+            --brand-blue: #0611B1;
+            --text-primary: #1F1F1F;
+            --text-secondary: #444746;
+            --border: #E3E3E3;
+            --success: #34a853;
+        }
 
-<style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg-main); color: var(--text-primary); display: flex; height: 100vh; }
 
-:root {
-  --aqua: #00e5d4;
-  --amber: #ffc947;
-  --navy: #03080f;
-  --navy-mid: #0a1628;
-  --glass-bg: rgba(8, 20, 45, 0.45);
-  --glass-border: rgba(0, 229, 212, 0.18);
-  --glass-border-hot: rgba(0, 229, 212, 0.55);
-}
+        /* Queue Sidebar */
+        .queue-sidebar { width: 350px; background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+        .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); background: var(--brand-blue); color: white; }
+        .queue-list { flex: 1; overflow-y: auto; padding: 10px; }
+        
+        .queue-item { 
+            padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 10px; 
+            cursor: pointer; transition: all 0.2s; background: var(--white);
+        }
+        .queue-item:hover { border-color: var(--brand-blue); background: #f8f9ff; }
+        .queue-item.active { border-color: var(--brand-blue); background: #f0f2ff; box-shadow: 0 4px 12px rgba(6,17,177,0.1); }
+        .queue-item h4 { font-size: 0.95rem; margin-bottom: 4px; }
+        .queue-item p { font-size: 0.8rem; color: var(--text-secondary); }
+        .status-tag { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-top: 8px; }
+        .status-tag.pending { background: #fff4e5; color: #b76e00; }
+        .status-tag.active { background: #e6f4ea; color: #1e7e34; }
 
-html { scroll-behavior: auto; }
+        /* Chat Window */
+        .chat-window { flex: 1; display: flex; flex-direction: column; background: var(--white); }
+        .chat-header { padding: 15px 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .messages-area { flex: 1; overflow-y: auto; padding: 20px; background: #fafafa; display: flex; flex-direction: column; gap: 10px; }
+        
+        .msg { padding: 10px 15px; border-radius: 12px; max-width: 70%; font-size: 0.9rem; }
+        .msg.consultant { align-self: flex-end; background: var(--brand-blue); color: white; border-bottom-right-radius: 2px; }
+        .msg.user { align-self: flex-start; background: var(--border); color: var(--text-primary); border-bottom-left-radius: 2px; }
 
-body {
-  background: var(--navy);
-  color: #e8f4f8;
-  overflow-x: hidden;
-  height: 500vh;
-  font-family: 'DM Mono', monospace;
-}
+        .input-area { padding: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+        .input-area input { flex: 1; padding: 12px 20px; border-radius: 50px; border: 1px solid var(--border); outline: none; }
+        .btn { padding: 10px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; font-family: inherit; transition: 0.2s; }
+        .btn-primary { background: var(--brand-blue); color: white; }
+        .btn-success { background: var(--success); color: white; }
 
-/* ── GRAIN OVERLAY ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 100;
-  opacity: 0.6;
-}
-
-/* ── DEEP GRID ── */
-#grid-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.35;
-}
-
-/* ── PARTICLE FIELD ── */
-#particle-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ── RADIAL AMBIENT ── */
-#ambient {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,229,212,0.04) 0%, transparent 70%);
-  transition: opacity 0.6s;
-}
-
-/* ── LOGO ── */
-#logo-wrap {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 10;
-}
-
-#steward-logo {
-  width: 320px;
-  will-change: transform, filter;
-  transform-origin: center center;
-}
-
-/* ── LOGO GLOW ── */
-#logo-glow {
-  position: fixed;
-  top: 50%; left: 50%;
-  width: 320px; height: 320px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9;
-  background: radial-gradient(circle, rgba(0,229,212,0.18) 0%, transparent 70%);
-  will-change: transform, opacity;
-}
-
-/* ── SECTIONS ── */
-.section {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 5;
-}
-
-/* ── GLASS CARDS ── */
-.card {
-  position: relative;
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 28px;
-  padding: 52px 56px;
-  max-width: 520px;
-  width: 90vw;
-  text-align: center;
-  will-change: opacity, transform, filter;
-  overflow: hidden;
-}
-
-/* card shimmer line */
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 60%; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0,229,212,0.5), transparent);
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 200%; }
-}
-
-/* inner top accent */
-.card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 40%; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--aqua), transparent);
-  opacity: 0.4;
-}
-
-.card-tag {
-  font-size: 0.6rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--aqua);
-  margin-bottom: 18px;
-  opacity: 0.7;
-  font-weight: 400;
-}
-
-.card h2 {
-  font-family: 'Syne', sans-serif;
-  font-size: 3.2rem;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: #e8f4f8;
-  margin-bottom: 18px;
-}
-
-.card h2 .accent {
-  color: var(--aqua);
-}
-
-.card p {
-  font-size: 0.875rem;
-  line-height: 1.75;
-  color: rgba(200, 220, 230, 0.65);
-  font-weight: 300;
-  letter-spacing: 0.02em;
-}
-
-/* ── RIPPLE RING ── */
-.ripple {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(0, 229, 212, 0.6);
-  transform: translate(-50%, -50%) scale(0);
-  pointer-events: none;
-  animation: ripple-expand 0.9s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
-}
-
-@keyframes ripple-expand {
-  to {
-    transform: translate(-50%, -50%) scale(80);
-    opacity: 0;
-  }
-}
-
-/* ── FINAL CARD ── */
-#card-final {
-  border-color: rgba(255, 201, 71, 0.25);
-  background: rgba(20, 10, 4, 0.55);
-}
-
-#card-final::after {
-  background: linear-gradient(90deg, transparent, var(--amber), transparent);
-}
-
-#card-final .card-tag { color: var(--amber); }
-#card-final h2 .accent { color: var(--amber); }
-
-#card-final::before {
-  background: linear-gradient(90deg, transparent, rgba(255,201,71,0.4), transparent);
-}
-
-.cta-btn {
-  margin-top: 32px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: transparent;
-  color: var(--amber);
-  border: 1px solid rgba(255,201,71,0.4);
-  padding: 14px 36px;
-  font-family: 'Syne', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background 0.3s, border-color 0.3s, transform 0.2s;
-}
-
-.cta-btn:hover {
-  background: rgba(255,201,71,0.1);
-  border-color: rgba(255,201,71,0.8);
-  transform: scale(1.04);
-}
-
-.cta-btn svg {
-  transition: transform 0.2s;
-}
-
-.cta-btn:hover svg {
-  transform: translateX(4px);
-}
-
-/* ── STAT PILLS ── */
-.stat-row {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 24px;
-}
-
-.stat-pill {
-  border: 1px solid rgba(0,229,212,0.15);
-  border-radius: 100px;
-  padding: 6px 16px;
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  color: rgba(0,229,212,0.5);
-  backdrop-filter: blur(8px);
-}
-
-/* ── SCROLL INDICATOR ── */
-#scroll-hint {
-  position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  z-index: 20;
-  pointer-events: none;
-  transition: opacity 0.5s;
-}
-
-#scroll-hint span {
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(0,229,212,0.4);
-}
-
-.scroll-line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, rgba(0,229,212,0.4), transparent);
-  animation: scroll-pulse 2s ease-in-out infinite;
-}
-
-@keyframes scroll-pulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-  50% { opacity: 1; transform: scaleY(1); }
-}
-
-/* ── PROGRESS LINE ── */
-#progress-bar {
-  position: fixed;
-  top: 0; left: 0;
-  height: 2px;
-  width: 0%;
-  background: linear-gradient(90deg, var(--aqua), var(--amber));
-  z-index: 50;
-  transition: width 0.1s linear;
-  box-shadow: 0 0 8px rgba(0,229,212,0.6);
-}
-</style>
+        .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); }
+    </style>
 </head>
 <body>
 
-<canvas id="grid-canvas"></canvas>
-<canvas id="particle-canvas"></canvas>
-<div id="ambient"></div>
-<div id="progress-bar"></div>
-
-<!-- LOGO -->
-<div id="logo-wrap">
-  <img src="https://i.postimg.cc/X77SQ5mk/steward-icon.png" alt="Steward AI" id="steward-logo">
-</div>
-<div id="logo-glow"></div>
-
-<!-- S1 -->
-<section class="section">
-  <div class="card" id="card-1">
-    <div class="card-tag">System boot · v2.4.1</div>
-    <h2>Hi,<br>I'm <span class="accent">Steward</span></h2>
-    <p>Your new AI Support Pilot. Watch me dive through your entire workflow — layer by layer.</p>
-    <div class="stat-row">
-      <div class="stat-pill">24 / 7</div>
-      <div class="stat-pill">< 200ms</div>
-      <div class="stat-pill">99.9% uptime</div>
+    <div class="queue-sidebar">
+        <div class="sidebar-header">
+            <h2>Live Queue</h2>
+            <p>Rare Grade Tech Support</p>
+        </div>
+        <div class="queue-list" id="queueList">
+            </div>
     </div>
-  </div>
-</section>
 
-<!-- S2 -->
-<section class="section">
-  <div class="card" id="card-2">
-    <div class="card-tag">Module 01 · Diagnostics</div>
-    <h2>Always <span class="accent">Awake</span></h2>
-    <p>Handling hardware diagnostics and technical inquiries around the clock. No downtime. No delays. Just answers.</p>
-  </div>
-</section>
+    <div class="chat-window" id="chatWindow">
+        <div class="empty-state" id="emptyState">
+            <i data-feather="message-circle" style="width: 48px; height: 48px; margin-bottom: 10px;"></i>
+            <p>Select a request from the queue to start chatting</p>
+        </div>
 
-<!-- S3 -->
-<section class="section">
-  <div class="card" id="card-3">
-    <div class="card-tag">Module 02 · Escalation</div>
-    <h2>The Rare <span class="accent">Bridge</span></h2>
-    <p>When complexity demands it, I seamlessly arrange callbacks with the Rare Grade Tech elite team — in real time.</p>
-  </div>
-</section>
+        <div id="activeChatUI" style="display: none; flex-direction: column; height: 100%;">
+            <div class="chat-header">
+                <div>
+                    <h3 id="clientNameHeader">Client Name</h3>
+                    <p id="chatStatusHeader" style="font-size: 0.8rem; color: var(--success);">Pending Acceptance</p>
+                </div>
+                <button class="btn btn-success" id="acceptBtn" onclick="window.acceptChat()">Accept Request</button>
+            </div>
+            <div class="messages-area" id="consultantMessagesList"></div>
+            <div class="input-area">
+                <input type="text" id="consultantInput" placeholder="Type your response..." onkeypress="window.handleKey(event)">
+                <button class="btn btn-primary" onclick="window.sendResponse()">Send</button>
+            </div>
+        </div>
+    </div>
 
-<!-- S4 FINAL -->
-<section class="section">
-  <div class="card" id="card-final">
-    <div class="card-tag">Deploy · Initialize</div>
-    <h2>Ready to <span class="accent">Launch?</span></h2>
-    <p>Transform your support infrastructure into something that never sleeps — and never misses a beat.</p>
-    <button class="cta-btn">
-      Initialize System
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </div>
-</section>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue, update, push, serverTimestamp, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-<!-- SCROLL HINT -->
-<div id="scroll-hint">
-  <span>Scroll</span>
-  <div class="scroll-line"></div>
-</div>
+        // Firebase Config (Must match your index.html)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBOyZ3As4GTuNvjemvPF_SpsC6m6vqtNhc",
+            authDomain: "fire-b-a8878.firebaseapp.com",
+            projectId: "fire-b-a8878",
+            databaseURL: "https://fire-b-a8878-default-rtdb.firebaseio.com",
+            appId: "1:658673187627:web:6e4c29af661785f0afa36e"
+        };
 
-<script>
-(function() {
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-  // ── GRID CANVAS ──
-  const gc = document.getElementById('grid-canvas');
-  const gctx = gc.getContext('2d');
+        let selectedSessionId = null;
+        const consultantName = "Rare Grade Tech Specialist"; //
 
-  function resizeGrid() {
-    gc.width = window.innerWidth;
-    gc.height = window.innerHeight;
-    drawGrid();
-  }
+        // 1. Listen for all live chat sessions
+        onValue(ref(db, 'live_chats'), (snapshot) => {
+            const queueList = document.getElementById('queueList');
+            queueList.innerHTML = '';
+            
+            snapshot.forEach((child) => {
+                const session = child.val();
+                const id = child.key;
+                
+                const item = document.createElement('div');
+                item.className = `queue-item ${selectedSessionId === id ? 'active' : ''}`;
+                item.innerHTML = `
+                    <h4>${session.userName}</h4>
+                    <p>Started: ${new Date(session.createdAt).toLocaleTimeString()}</p>
+                    <span class="status-tag ${session.status}">${session.status}</span>
+                `;
+                item.onclick = () => window.selectSession(id, session);
+                queueList.appendChild(item);
+            });
+        });
 
-  function drawGrid() {
-    gctx.clearRect(0, 0, gc.width, gc.height);
-    const step = 60;
-    gctx.strokeStyle = 'rgba(0,229,212,0.08)';
-    gctx.lineWidth = 0.5;
-    for (let x = 0; x < gc.width; x += step) {
-      gctx.beginPath(); gctx.moveTo(x, 0); gctx.lineTo(x, gc.height); gctx.stroke();
-    }
-    for (let y = 0; y < gc.height; y += step) {
-      gctx.beginPath(); gctx.moveTo(0, y); gctx.lineTo(gc.width, y); gctx.stroke();
-    }
-    // Intersection dots
-    gctx.fillStyle = 'rgba(0,229,212,0.12)';
-    for (let x = 0; x < gc.width; x += step) {
-      for (let y = 0; y < gc.height; y += step) {
-        gctx.beginPath();
-        gctx.arc(x, y, 1, 0, Math.PI * 2);
-        gctx.fill();
-      }
-    }
-  }
+        window.selectSession = (id, session) => {
+            selectedSessionId = id;
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('activeChatUI').style.display = 'flex';
+            document.getElementById('clientNameHeader').innerText = session.userName;
+            document.getElementById('consultantMessagesList').innerHTML = '';
+            
+            const acceptBtn = document.getElementById('acceptBtn');
+            if (session.status === 'active') {
+                acceptBtn.style.display = 'none';
+                document.getElementById('chatStatusHeader').innerText = "Connected";
+            } else {
+                acceptBtn.style.display = 'block';
+                document.getElementById('chatStatusHeader').innerText = "Awaiting Acceptance";
+            }
 
-  resizeGrid();
-  window.addEventListener('resize', resizeGrid);
+            // Load messages for this session
+            window.listenForMessages(id);
+        };
 
-  // ── PARTICLE FIELD ──
-  const pc = document.getElementById('particle-canvas');
-  const pctx = pc.getContext('2d');
-  let particles = [];
+        window.acceptChat = async () => {
+            if (!selectedSessionId) return;
+            await update(ref(db, `live_chats/${selectedSessionId}`), {
+                status: 'active',
+                consultantName: consultantName
+            });
+            document.getElementById('acceptBtn').style.display = 'none';
+        };
 
-  function resizeParticles() {
-    pc.width = window.innerWidth;
-    pc.height = window.innerHeight;
-  }
-  resizeParticles();
-  window.addEventListener('resize', resizeParticles);
+        window.sendResponse = async () => {
+            const input = document.getElementById('consultantInput');
+            const text = input.value.trim();
+            if (!text || !selectedSessionId) return;
 
-  function createParticles() {
-    particles = [];
-    const count = Math.floor((window.innerWidth * window.innerHeight) / 18000);
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        r: Math.random() * 1.2 + 0.3,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: (Math.random() - 0.5) * 0.15,
-        alpha: Math.random() * 0.5 + 0.1
-      });
-    }
-  }
-  createParticles();
-  window.addEventListener('resize', createParticles);
+            await push(ref(db, `live_chat_messages/${selectedSessionId}`), {
+                senderId: 'consultant',
+                text: text,
+                timestamp: serverTimestamp()
+            });
+            input.value = '';
+        };
 
-  // ── LOGO & SCROLL STATE ──
-  const logo = document.getElementById('steward-logo');
-  const logoGlow = document.getElementById('logo-glow');
-  const logoWrap = document.getElementById('logo-wrap');
-  const progressBar = document.getElementById('progress-bar');
-  const scrollHint = document.getElementById('scroll-hint');
-  const ambient = document.getElementById('ambient');
-  const cards = document.querySelectorAll('.card');
+        window.handleKey = (e) => { if (e.key === 'Enter') window.sendResponse(); };
 
-  let targetScroll = 0;
-  let currentScroll = 0;
-  let glowScale = 1;
-  let rippleTriggered = [false, false, false, false];
+        window.listenForMessages = (sessionId) => {
+            const list = document.getElementById('consultantMessagesList');
+            list.innerHTML = ''; // Clear for new session
+            onChildAdded(ref(db, `live_chat_messages/${sessionId}`), (snap) => {
+                const msg = snap.val();
+                const div = document.createElement('div');
+                div.className = `msg ${msg.senderId}`;
+                div.innerText = msg.text;
+                list.appendChild(div);
+                list.scrollTop = list.scrollHeight;
+            });
+        };
 
-  window.addEventListener('scroll', () => { targetScroll = window.scrollY; }, { passive: true });
-
-  function triggerRipple(card) {
-    const r = document.createElement('div');
-    r.className = 'ripple';
-    card.appendChild(r);
-    setTimeout(() => r.remove(), 950);
-  }
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  // ── MAIN LOOP ──
-  function tick() {
-    currentScroll = lerp(currentScroll, targetScroll, 0.1);
-
-    const vh = window.innerHeight;
-    const totalScroll = document.body.scrollHeight - vh;
-    const scrollPct = Math.min(currentScroll / totalScroll, 1);
-
-    // Progress bar
-    progressBar.style.width = (scrollPct * 100) + '%';
-
-    // Scroll hint fade
-    scrollHint.style.opacity = currentScroll < 80 ? '1' : '0';
-
-    // Cards + logo per section
-    let activeLogo = { scale: 0.3, glow: 0.2 };
-
-    cards.forEach((card, i) => {
-      const sTop = vh * i;
-      const progress = (currentScroll - sTop) / vh;
-
-      if (progress > 0 && progress < 1) {
-        // Card fade-out on pass-through
-        if (progress > 0.35) {
-          const fade = 1 - ((progress - 0.35) / 0.35);
-          const f = Math.max(0, Math.min(1, fade));
-          card.style.opacity = f;
-          card.style.transform = `scale(${0.88 + f * 0.12}) translateY(${(progress - 0.35) * -80}px)`;
-          card.style.filter = `blur(${(1 - f) * 12}px)`;
-
-          // Ripple trigger
-          if (progress > 0.38 && !rippleTriggered[i]) {
-            rippleTriggered[i] = true;
-            triggerRipple(card);
-          }
-        } else {
-          // Card entrance
-          const enter = Math.min(1, progress / 0.15);
-          card.style.opacity = enter;
-          card.style.transform = `scale(${0.96 + enter * 0.04}) translateY(${(1 - enter) * 30}px)`;
-          card.style.filter = `blur(${(1 - enter) * 4}px)`;
-          rippleTriggered[i] = false;
-        }
-
-        // Logo scale drives into then through the card
-        const logoScale = 0.3 + (progress * 2.5);
-        activeLogo.scale = logoScale;
-        activeLogo.glow = Math.min(1, progress * 1.8);
-
-        // Z layer flip
-        logoWrap.style.zIndex = progress > 0.48 ? '20' : '8';
-        logoGlow.style.zIndex = progress > 0.48 ? '19' : '7';
-
-        // Ambient pulse
-        const ambientIntensity = Math.sin(progress * Math.PI) * 0.12;
-        const isFinal = i === 3;
-        const col = isFinal ? '255,201,71' : '0,229,212';
-        ambient.style.background = `radial-gradient(ellipse 70% 60% at 50% 50%, rgba(${col},${ambientIntensity}) 0%, transparent 70%)`;
-      }
-
-      // Reset card out of range
-      if (progress <= 0 || progress >= 1) {
-        if (progress <= 0) {
-          card.style.opacity = '0';
-          card.style.transform = 'scale(0.96) translateY(20px)';
-          card.style.filter = 'blur(3px)';
-        }
-        if (progress >= 1) {
-          card.style.opacity = '0';
-        }
-      }
-    });
-
-    // Apply logo transform
-    const drift = Math.sin(currentScroll * 0.005) * 8;
-    logo.style.transform = `scale(${activeLogo.scale}) translateY(${drift / activeLogo.scale}px)`;
-
-    // Glow scale mirrors logo
-    const gs = activeLogo.scale;
-    logoGlow.style.transform = `translate(-50%, ${-50 + drift * 0.05}%) scale(${gs * 1.2})`;
-    logoGlow.style.opacity = activeLogo.glow;
-
-    // ── PARTICLES ──
-    pctx.clearRect(0, 0, pc.width, pc.height);
-    particles.forEach(p => {
-      p.x += p.vx;
-      p.y += p.vy - (scrollPct * 0.3); // drift up slightly with scroll
-      if (p.x < 0) p.x = pc.width;
-      if (p.x > pc.width) p.x = 0;
-      if (p.y < 0) p.y = pc.height;
-      if (p.y > pc.height) p.y = 0;
-
-      pctx.beginPath();
-      pctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      pctx.fillStyle = `rgba(0,229,212,${p.alpha * 0.7})`;
-      pctx.fill();
-    });
-
-    requestAnimationFrame(tick);
-  }
-
-  // Initial state
-  cards.forEach(c => {
-    c.style.opacity = '0';
-    c.style.transform = 'scale(0.96) translateY(20px)';
-  });
-
-  tick();
-
-})();
-</script>
+        feather.replace();
+    </script>
 </body>
 </html>
