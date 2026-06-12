@@ -1331,26 +1331,38 @@ Keep responses technically precise, modern, and directly actionable.`;
     else window.openAuth();
   });
 
-  onAuthStateChanged(auth, async user => {
-    currentUser = user;
-    const avatarEl = document.getElementById('userAvatar');
-    const nameEl = document.getElementById('userName');
-    if (user) {
-      nameEl.textContent = user.displayName?.split(' ')[0] || 'User';
-      if (user.photoURL) avatarEl.innerHTML = `<img src="${user.photoURL}" alt="">`;
-      else avatarEl.innerHTML = `<span>${(user.displayName||'U')[0].toUpperCase()}</span>`;
-      guestCount = 0;
-      document.getElementById('auth-gate')?.remove();
-      document.getElementById('upgrade-gate')?.remove();
-      await loadSubscription(user.uid);
-      await loadTodayUsage(user.uid);
-      loadThreads(user.uid);
-    } else {
-      nameEl.textContent = 'Guest';
-      avatarEl.innerHTML = `<i data-feather="user" style="width:16px;height:16px;"></i>`;
-      threadList.innerHTML = ''; startNewThread(); feather.replace();
-    }
-  });
+ onAuthStateChanged(auth, async user => {
+  currentUser = user;
+  const avatarEl = document.getElementById('userAvatar');
+  const nameEl = document.getElementById('userName');
+  
+  if (user) {
+    nameEl.textContent = user.displayName?.split(' ')[0] || 'User';
+    if (user.photoURL) avatarEl.innerHTML = `<img src="${user.photoURL}" alt="">`;
+    else avatarEl.innerHTML = `<span>${(user.displayName||'U')[0].toUpperCase()}</span>`;
+    
+    guestCount = 0;
+    document.getElementById('auth-gate')?.remove();
+    document.getElementById('upgrade-gate')?.remove();
+    
+    // 🟢 NEW: Save user profile to database for the admin panel to read
+    const userRef = ref(db, `cf_users/${user.uid}`);
+    await set(userRef, {
+      name: user.displayName || 'Unknown',
+      email: user.email || 'No email',
+      photoURL: user.photoURL || '',
+      lastSeen: serverTimestamp()
+    });
+
+    await loadSubscription(user.uid);
+    await loadTodayUsage(user.uid);
+    loadThreads(user.uid);
+  } else {
+    nameEl.textContent = 'Guest';
+    avatarEl.innerHTML = `<i data-feather="user" style="width:16px;height:16px;"></i>`;
+    threadList.innerHTML = ''; startNewThread(); feather.replace();
+  }
+});
 
   function relativeTime(ts) {
     if (!ts) return '';
